@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,6 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'phonenumber_field',
+    'address',
+    'caretakers.apps.CaretakersConfig',
+    'pets.apps.PetsConfig',
+    'contacts.apps.ContactsConfig',
 ]
 
 MIDDLEWARE = [
