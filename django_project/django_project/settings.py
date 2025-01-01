@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'caretakers.apps.CaretakersConfig',
     'pets.apps.PetsConfig',
     'contacts.apps.ContactsConfig',
+    'entries.apps.EntriesConfig',
 ]
 
 MIDDLEWARE = [
