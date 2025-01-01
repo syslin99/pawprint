@@ -1,4 +1,4 @@
-from django.shortcuts import HttpResponse
+from django.http import HttpResponse
 
 from .models import Caretaker
 
