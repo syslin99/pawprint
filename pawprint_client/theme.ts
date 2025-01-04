@@ -8,4 +8,18 @@ export const theme = {
     colorLightGrey: '#D9D9D9',
     colorMediumGrey: '#3F535F',
 
+    // spacing
+    space4: 4,
+    space8: 8,
+    space12: 12,
+    space16: 16,
+    space24: 24,
+
+    // typography
+    fontSize12: 12,
+    fontSize16: 16,
+    fontSize24: 24,
+    fontSize32: 32,
+    fontSize48: 48,
+
 };
