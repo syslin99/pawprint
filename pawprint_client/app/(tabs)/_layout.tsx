@@ -7,9 +7,25 @@ import { theme } from '@/theme';
 
 export default function TabLayout() {
     return (
-        // Navigation bar
         <Tabs screenOptions={{
-            headerShown: false,
+            // Main header
+            headerStyle: {
+                backgroundColor: theme.colorDarkBlue,
+                height: 64,
+            },
+            headerTintColor: theme.colorWhite,
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+                fontSize: theme.fontSize24,
+            },
+            headerRight: () => (
+                <Link href='/settings' asChild>
+                    <Pressable style={styles.settingsButton}>
+                        <Ionicons name='settings' color={theme.colorWhite} size={theme.fontSize24} style={styles.settingsIcon} />
+                    </Pressable>
+                </Link>
+            ),
+            // Navigation bar
             tabBarStyle: {
                 height: 80,
                 backgroundColor: theme.colorDarkBlue,
@@ -97,6 +113,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     centerIcon: {
+        textAlign: 'center',
+    },
+    settingsButton: {
+        height: 48,
+        width: 48,
+        marginRight: theme.space4,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    settingsIcon: {
         textAlign: 'center',
     },
 });
