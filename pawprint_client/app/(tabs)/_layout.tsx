@@ -8,23 +8,7 @@ import { theme } from '@/theme';
 export default function TabLayout() {
     return (
         <Tabs screenOptions={{
-            // Main header
-            headerStyle: {
-                backgroundColor: theme.colorDarkBlue,
-                height: 64,
-            },
-            headerTintColor: theme.colorWhite,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-                fontSize: theme.fontSize24,
-            },
-            headerRight: () => (
-                <Link href='/settings' asChild>
-                    <Pressable style={styles.settingsButton}>
-                        <Ionicons name='settings' color={theme.colorWhite} size={theme.fontSize24} style={styles.settingsIcon} />
-                    </Pressable>
-                </Link>
-            ),
+            headerShown: false,
             // Navigation bar
             tabBarStyle: {
                 height: 80,
