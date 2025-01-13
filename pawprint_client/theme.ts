@@ -1,25 +1,25 @@
-export const theme = {
+export const THEME = {
 
     // colors
-    colorLightBlue: '#97BBD4',
-    colorMediumBlue: '#3D84AE',
-    colorDarkBlue: '#202A30',
-    colorWhite: '#EFEFEF',
-    colorLightGrey: '#D9D9D9',
-    colorMediumGrey: '#3F535F',
+    COLOR_LIGHT_BLUE: '#97BBD4',
+    COLOR_MEDIUM_BLUE: '#3D84AE',
+    COLOR_DARK_BLUE: '#202A30',
+    COLOR_WHITE: '#EFEFEF',
+    COLOR_LIGHT_GREY: '#D9D9D9',
+    COLOR_MEDIUM_GREY: '#3F535F',
 
     // spacing
-    space4: 4,
-    space8: 8,
-    space12: 12,
-    space16: 16,
-    space24: 24,
+    SPACE_4: 4,
+    SPACE_8: 8,
+    SPACE_12: 12,
+    SPACE_16: 16,
+    SPACE_24: 24,
 
     // typography
-    fontSize12: 12,
-    fontSize16: 16,
-    fontSize24: 24,
-    fontSize32: 32,
-    fontSize48: 48,
+    FONT_SIZE_12: 12,
+    FONT_SIZE_16: 16,
+    FONT_SIZE_24: 24,
+    FONT_SIZE_32: 32,
+    FONT_SIZE_48: 48,
 
 };

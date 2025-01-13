@@ -1,7 +1,7 @@
 import { FlatList, Pressable, Text, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { theme } from '@/theme';
+import { THEME } from '@/theme';
 import { FAKE_ID } from '@/constants';
 import { Pet } from '@/api_interfaces';
 
@@ -13,7 +13,7 @@ export default function PetList({petData} : {petData:Pet[]}) {
         if (item.id === Number.NEGATIVE_INFINITY) {
             return (
                 <Pressable onPress={() => alert('add pet')} style={styles.petIcon}>
-                    <Ionicons name='add' color={theme.colorDarkBlue} size={theme.fontSize32} style={styles.text} />
+                    <Ionicons name='add' color={THEME.COLOR_DARK_BLUE} size={THEME.FONT_SIZE_32} style={styles.text} />
                     <Text style={styles.text}>Add Pet</Text>
                 </Pressable>
             )
@@ -40,22 +40,22 @@ export default function PetList({petData} : {petData:Pet[]}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colorWhite,
+        backgroundColor: THEME.COLOR_WHITE,
         margin: 24,
     },
     petIcon: {
-        backgroundColor: theme.colorWhite,
+        backgroundColor: THEME.COLOR_WHITE,
         height: 150,
         width: 150,
         borderRadius: '50%',
         borderWidth: 1,
-        borderColor: theme.colorDarkBlue,
+        borderColor: THEME.COLOR_DARK_BLUE,
         alignItems: 'center',
         justifyContent: 'center',
         margin: 16,
     },
     text: {
-        color: theme.colorDarkBlue,
+        color: THEME.COLOR_DARK_BLUE,
         fontSize: 24,
     },
 })

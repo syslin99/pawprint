@@ -1,7 +1,6 @@
 import { View, ScrollView, Text, FlatList, StyleSheet} from 'react-native';
 import { useEffect, useState } from 'react';
 
-import { theme } from '@/theme';
 import { Pet } from '@/api_interfaces';
 import MainHeader from '@/components/MainHeader';
 import PetList from '@/components/PetList';

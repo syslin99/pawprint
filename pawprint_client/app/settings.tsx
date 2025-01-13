@@ -1,6 +1,6 @@
 import { View, ScrollView, Text, StyleSheet} from 'react-native';
 
-import { theme } from '@/theme';
+import { THEME } from '@/theme';
 import SecondaryHeader from '@/components/SecondaryHeader';
 
 
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: theme.colorMediumBlue,
+        backgroundColor: THEME.COLOR_MEDIUM_BLUE,
     },
     text: {
-        color: theme.colorDarkBlue,
+        color: THEME.COLOR_DARK_BLUE,
         fontSize: 46,
     },
 });

@@ -2,7 +2,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Link, router } from 'expo-router';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
-import { theme } from '@/theme';
+import { THEME } from '@/theme';
 
 
 export default function SecondaryHeader({title, hasEditActions} : {title:string, hasEditActions:boolean}) {
@@ -12,19 +12,19 @@ export default function SecondaryHeader({title, hasEditActions} : {title:string,
                 onPress={() => router.back()}
                 style={[styles.headerButton, styles.backButton]}
             >
-                <FontAwesome name='close' color={theme.colorWhite} size={theme.fontSize24} style={styles.icon} />
+                <FontAwesome name='close' color={THEME.COLOR_WHITE} size={THEME.FONT_SIZE_24} style={styles.icon} />
             </Pressable>
             <Text style={styles.headerTitle}>{title}</Text>
             { (hasEditActions) &&
                 <View style={styles.editRow}>
                     {/* <Link href='/edit' asChild> */}
                         <Pressable onPress={() => alert('edit')} style={styles.headerButton}>
-                            <FontAwesome5 name='pen' color={theme.colorWhite} size={theme.fontSize24} style={styles.icon} />
+                            <FontAwesome5 name='pen' color={THEME.COLOR_WHITE} size={THEME.FONT_SIZE_24} style={styles.icon} />
                         </Pressable>
                     {/* </Link> */}
                     {/* <Link href='/delete' asChild> */}
                         <Pressable onPress={() => alert('delete')} style={styles.headerButton}>
-                            <FontAwesome5 name='trash' color={theme.colorWhite} size={theme.fontSize24} style={styles.icon} />
+                            <FontAwesome5 name='trash' color={THEME.COLOR_WHITE} size={THEME.FONT_SIZE_24} style={styles.icon} />
                         </Pressable>
                     {/* </Link> */}
                 </View>
@@ -36,15 +36,15 @@ export default function SecondaryHeader({title, hasEditActions} : {title:string,
 const styles = StyleSheet.create({
     headerBar: {
         height: 64,
-        backgroundColor: theme.colorDarkBlue,
+        backgroundColor: THEME.COLOR_DARK_BLUE,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
     },
     headerTitle: {
         flex: 1,
-        color: theme.colorWhite,
-        fontSize: theme.fontSize24,
+        color: THEME.COLOR_WHITE,
+        fontSize: THEME.FONT_SIZE_24,
     },
     headerButton: {
         height: 48,
@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     backButton: {
-        marginLeft: theme.space4,
-        marginRight: theme.space4,
+        marginLeft: THEME.SPACE_4,
+        marginRight: THEME.SPACE_4,
     },
     editRow : {
         flexDirection: 'row',
-        marginRight: theme.space4,
+        marginRight: THEME.SPACE_4,
     },
 });

@@ -2,7 +2,7 @@ import { Pressable, StyleSheet } from 'react-native';
 import { Tabs, Link } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { theme } from '@/theme';
+import { THEME } from '@/theme';
 
 
 export default function TabLayout() {
@@ -12,15 +12,15 @@ export default function TabLayout() {
             // Navigation bar
             tabBarStyle: {
                 height: 80,
-                backgroundColor: theme.colorDarkBlue,
-                paddingTop: theme.space12,
-                paddingBottom: theme.space16,
+                backgroundColor: THEME.COLOR_DARK_BLUE,
+                paddingTop: THEME.SPACE_12,
+                paddingBottom: THEME.SPACE_16,
             },
             tabBarLabelStyle: {
-                fontSize: theme.fontSize12,
+                fontSize: THEME.FONT_SIZE_12,
             },
-            tabBarActiveTintColor: theme.colorLightBlue,
-            tabBarInactiveTintColor: theme.colorWhite,
+            tabBarActiveTintColor: THEME.COLOR_LIGHT_BLUE,
+            tabBarInactiveTintColor: THEME.COLOR_WHITE,
         }}>
             {/* Log tab */}
             <Tabs.Screen
@@ -28,7 +28,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Log',
                     tabBarIcon: ({ color }) => (
-                        <Ionicons name='list' color={color} size={theme.fontSize24}/>
+                        <Ionicons name='list' color={color} size={THEME.FONT_SIZE_24}/>
                     ),
                 }}
             />
@@ -38,7 +38,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Events',
                     tabBarIcon: ({ color }) => (
-                        <Ionicons name='calendar-clear' color={color} size={theme.fontSize24}/>
+                        <Ionicons name='calendar-clear' color={color} size={THEME.FONT_SIZE_24}/>
                     ),
                 }}
             />
@@ -50,7 +50,7 @@ export default function TabLayout() {
                     tabBarIcon: ({ color }) => (
                         <Link href='/add_entry' asChild>
                             <Pressable style={styles.centerTab}>
-                                <Ionicons name='add' color={color} size={theme.fontSize48} style={styles.centerIcon} />
+                                <Ionicons name='add' color={color} size={THEME.FONT_SIZE_24} style={styles.centerIcon} />
                             </Pressable>
                         </Link>
                     ),
@@ -63,7 +63,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Vitals',
                     tabBarIcon: ({ color }) => (
-                        <Ionicons name='medical' color={color} size={theme.fontSize24}/>
+                        <Ionicons name='medical' color={color} size={THEME.FONT_SIZE_24}/>
                     ),
                 }}
             />
@@ -73,7 +73,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Pets',
                     tabBarIcon: ({ color }) => (
-                        <Ionicons name='paw' color={color} size={theme.fontSize24}/>
+                        <Ionicons name='paw' color={color} size={THEME.FONT_SIZE_24}/>
                     ),
                 }}
             />
@@ -86,13 +86,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     centerTab: {
-        backgroundColor: theme.colorMediumBlue,
+        backgroundColor: THEME.COLOR_MEDIUM_BLUE,
         height: 76,
         width: 76,
         top: -30,
         borderRadius: '50%',
-        borderWidth: theme.space4,
-        borderColor: theme.colorWhite,
+        borderWidth: THEME.SPACE_4,
+        borderColor: THEME.COLOR_WHITE,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     settingsButton: {
         height: 48,
         width: 48,
-        marginRight: theme.space4,
+        marginRight: THEME.SPACE_4,
         alignItems: 'center',
         justifyContent: 'center',
     },
