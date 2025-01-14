@@ -20,7 +20,7 @@ class Pet(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICES)
     breed = models.CharField(max_length=50, blank=True)
     chip = models.CharField(max_length=15, blank=True)
-    image = models.ImageField(upload_to='pets/images')
+    image = models.ImageField(upload_to='pets/')
     contacts = models.ManyToManyField(Contact, blank=True, related_name='pets')
 
     def __str__(self):

@@ -79,12 +79,12 @@ class Vitals(models.Model):
         return self.entry.title
 
 class Picture(models.Model):
-    """Contains additioanl pictures associated with entries"""
+    """Contains additional pictures associated with entries"""
     class Meta:
         ordering = ['id']
 
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='pictures')
-    image = models.ImageField(upload_to='entries/images')
+    image = models.ImageField(upload_to='entrys/')
 
     def __str__(self):
         return self.entry.title
