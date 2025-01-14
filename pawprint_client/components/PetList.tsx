@@ -1,4 +1,4 @@
-import { FlatList, Pressable, Text, StyleSheet } from 'react-native';
+import { FlatList, Pressable, Text, Image, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { THEME } from '@/theme';
@@ -13,15 +13,23 @@ export default function PetList({petData} : {petData:Pet[]}) {
         if (item.id === Number.NEGATIVE_INFINITY) {
             return (
                 <Pressable onPress={() => alert('add pet')} style={styles.petIcon}>
-                    <Ionicons name='add' color={THEME.COLOR_DARK_BLUE} size={THEME.FONT_SIZE_32} style={styles.text} />
+                    <Ionicons
+                        name='add'
+                        color={THEME.COLOR_DARK_BLUE}
+                        size={THEME.FONT_SIZE_32}
+                        style={styles.text}
+                    />
                     <Text style={styles.text}>Add Pet</Text>
                 </Pressable>
             )
         }
         // pet icon template
         return (
-            <Pressable onPress={() => alert('go to profile')} style={styles.petIcon}>
-                <Text style={styles.text}>{item.name}</Text>
+            <Pressable onPress={() => alert('go to profile')}>
+                <Image
+                    source={{uri: item.image}}
+                    style={styles.petIcon}
+                />
             </Pressable>
         )
     }
@@ -47,7 +55,7 @@ const styles = StyleSheet.create({
         backgroundColor: THEME.COLOR_WHITE,
         height: 150,
         width: 150,
-        borderRadius: '50%',
+        borderRadius: 150 / 2,
         borderWidth: 1,
         borderColor: THEME.COLOR_DARK_BLUE,
         alignItems: 'center',

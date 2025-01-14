@@ -10,7 +10,6 @@ export default function Pets() {
     const [petData, setPetData] = useState<Pet[]>([]);
 
     useEffect(() => {
-        console.log('fetching...');
         fetchPetData();
     }, [])
 
@@ -18,7 +17,6 @@ export default function Pets() {
         try {
             const response = await fetch('http://192.168.86.81:8000/api/pets/');
             const data:Pet[] = await response.json()
-            console.log(data)
             setPetData(data);
         } catch (error) {
             console.error('Error fetching data:', error)
