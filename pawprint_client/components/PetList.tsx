@@ -4,8 +4,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { THEME } from '@/theme';
 import { FAKE_ID } from '@/constants';
 import { Pet } from '@/api_interfaces';
+import { useStoreContext } from '@/components/StoreContext';
 
-export default function PetList({petData} : {petData:Pet[]}) {
+
+export default function PetList() {
+    const { state, dispatch } = useStoreContext();
     const addIcon = {id: FAKE_ID};
 
     const renderItem = ({item} : {item:Pet}) => {
@@ -37,7 +40,7 @@ export default function PetList({petData} : {petData:Pet[]}) {
     return (
         <FlatList
             style={styles.container}
-            data={[...petData, addIcon]}
+            data={[...state.pets.values(), addIcon]}
             keyExtractor={item => String(item.id)}
             numColumns={2}
             renderItem={renderItem}
