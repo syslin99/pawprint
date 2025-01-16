@@ -2,11 +2,18 @@ import { View, ScrollView, Text, FlatList, StyleSheet} from 'react-native';
 import { useEffect, useState } from 'react';
 
 import { Pet } from '@/api_interfaces';
+import { useStoreContext } from '@/components/StoreContext';
 import MainHeader from '@/components/MainHeader';
 import PetList from '@/components/PetList';
 
 
 export default function Pets() {
+
+    // test stored cache
+    const { state, dispatch } = useStoreContext();
+    console.log('pets', state.pets)
+    console.log('contacts', state.contacts)
+
     const [petData, setPetData] = useState<Pet[]>([]);
 
     useEffect(() => {
