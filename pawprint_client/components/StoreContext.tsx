@@ -9,6 +9,7 @@ interface Context {
 }
 
 interface Store {
+    caretakerId: number,
     pets: Map<number, Pet>;
     contacts: Map<number, Contact>;
 }
@@ -32,6 +33,7 @@ function isContact(action: string, payload: Pet | Contact) : payload is Contact 
 const StoreContext = createContext<Context>({} as Context);
 
 const initialState:Store = {
+    caretakerId: 1,  // PLACEHOLDER, until Login screen built
     pets: new Map<number, Pet>(),
     contacts: new Map<number, Contact>(),
 }

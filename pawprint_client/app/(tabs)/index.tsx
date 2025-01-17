@@ -19,7 +19,7 @@ export default function Log() {
 
     const fetchPetData = async() => {
         try {
-            const response = await fetch('http://192.168.86.81:8000/api/pets/');
+            const response = await fetch(`http://192.168.86.81:8000/api/caretakers/${state.caretakerId}/pets`);
             const data:Pet[] = await response.json()
             data.forEach(pet => {
                 dispatch({ type: 'ADD_PET', payload: pet});
@@ -31,7 +31,7 @@ export default function Log() {
 
     const fetchContactData = async() => {
         try {
-            const response = await fetch('http://192.168.86.81:8000/api/contacts/');
+            const response = await fetch(`http://192.168.86.81:8000/api/caretakers/${state.caretakerId}/contacts`);
             const data:Contact[] = await response.json()
             data.forEach(contact => {
                 dispatch({ type: 'ADD_CONTACT', payload: contact});
