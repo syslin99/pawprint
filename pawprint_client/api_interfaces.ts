@@ -9,7 +9,7 @@ export interface Caretaker {
 export interface Pet {
     id: number;
     name?: string;
-    birthdate?: Date;
+    birthdate?: string;
     sex?: string;
     breed?: string;
     chip?: string;

@@ -1,4 +1,5 @@
 import { FlatList, Pressable, Text, Image, StyleSheet } from 'react-native';
+import { Link } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { THEME } from '@/theme';
@@ -28,12 +29,20 @@ export default function PetList() {
         }
         // pet icon template
         return (
-            <Pressable onPress={() => alert('go to profile')}>
-                <Image
-                    source={{uri: item.image}}
-                    style={styles.petIcon}
-                />
-            </Pressable>
+            <Link
+                href={{
+                    pathname: '/pets/[id]',
+                    params: { id: item.id},
+                }}
+                asChild
+            >
+                <Pressable>
+                    <Image
+                        source={{uri: item.image}}
+                        style={styles.petIcon}
+                    />
+                </Pressable>
+            </Link>
         )
     }
 
