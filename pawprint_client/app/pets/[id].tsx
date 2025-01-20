@@ -5,6 +5,7 @@ import { THEME } from '@/theme';
 import { useStoreContext } from '@/components/StoreContext';
 import SecondaryHeader from '@/components/SecondaryHeader';
 import IconTextRow from '@/components/IconTextRow';
+import ContactInfo from '@/components/ContactInfo';
 
 
 function calculateAge(birthdate:string) {
@@ -46,7 +47,7 @@ export default function PetProfile() {
                     style={styles.petImage}
                 />
                 <Text style={styles.titleText}>{pet.name}</Text>
-                <View>
+                <View style={styles.generalInfo}>
                     {pet.birthdate && <IconTextRow
                         iconSet='FontAwesome5'
                         iconName='birthday-cake'
@@ -54,7 +55,7 @@ export default function PetProfile() {
                         color={THEME.COLOR_DARK_BLUE}
                         text={age_text}
                         gap={8}
-                        style={styles.subtitleText}
+                        style={styles.subtitleRow}
                     />}
                     {pet.sex === 'F' && <IconTextRow
                         iconSet='FontAwesome5'
@@ -63,7 +64,7 @@ export default function PetProfile() {
                         color={THEME.COLOR_DARK_BLUE}
                         text='Female'
                         gap={8}
-                        style={styles.subtitleText}
+                        style={styles.subtitleRow}
                     />}
                     {pet.sex === 'M' && <IconTextRow
                         iconSet='FontAwesome5'
@@ -72,7 +73,7 @@ export default function PetProfile() {
                         color={THEME.COLOR_DARK_BLUE}
                         text='Male'
                         gap={8}
-                        style={styles.subtitleText}
+                        style={styles.subtitleRow}
                     />}
                     {pet.breed && <IconTextRow
                         iconSet='FontAwesome5'
@@ -81,7 +82,7 @@ export default function PetProfile() {
                         color={THEME.COLOR_DARK_BLUE}
                         text={pet.breed}
                         gap={8}
-                        style={styles.subtitleText}
+                        style={styles.subtitleRow}
                     />}
                     {pet.chip && <IconTextRow
                         iconSet='FontAwesome5'
@@ -90,11 +91,30 @@ export default function PetProfile() {
                         color={THEME.COLOR_DARK_BLUE}
                         text={pet.chip}
                         gap={8}
-                        style={styles.subtitleText}
+                        style={styles.subtitleRow}
                     />}
                 </View>
                 {/* Caretaker information */}
+                <View style={styles.card}>
+                    <Text style={styles.headingText}>Caretakers</Text>
+                    {pet.caretakers?.map(caretaker => {
+                        return <Text
+                            key={caretaker}
+                            style={styles.subHeadingText}
+                        >{caretaker}</Text>
+                    })}
+                </View>
                 {/* Contact information */}
+                <View style={styles.card}>
+                    <Text style={styles.headingText}>Contacts</Text>
+                    {pet.contacts?.map(contact_id => {
+                        return <ContactInfo
+                            key={contact_id}
+                            id={contact_id}
+                            subHeadingTextStyle={styles.subHeadingText}
+                        />
+                    })}
+                </View>
             </ScrollView>
         </View>
     )
@@ -123,13 +143,36 @@ const styles = StyleSheet.create({
         borderColor: THEME.COLOR_DARK_BLUE,
         marginTop: -150,
     },
+    generalInfo: {
+        marginBottom: 12
+    },
     titleText: {
         color: THEME.COLOR_DARK_BLUE,
         fontSize: 24,
         paddingTop: 16,
         paddingBottom: 8,
     },
-    subtitleText: {
+    subtitleRow: {
         paddingBottom: 4,
     },
+    card: {
+        width: 380,
+        padding: 16,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: THEME.COLOR_MEDIUM_GREY,
+        marginBottom: 12,
+    },
+    headingText: {
+        color: THEME.COLOR_MEDIUM_GREY,
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingBottom: 8,
+    },
+    subHeadingText: {
+        color: THEME.COLOR_DARK_BLUE,
+        fontSize: 16,
+        fontWeight: 'bold',
+        paddingBottom: 8,
+    }
 })

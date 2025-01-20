@@ -21,7 +21,7 @@ function Icon(props:Props) {
                     name={props.iconName}
                     color={props.color}
                     size={props.size}
-                    style={{height: props.size, width: props.size, marginRight: props.gap }}
+                    style={{height: props.size, width: props.size, marginRight: props.gap}}
                 />
         )
     }
@@ -34,7 +34,7 @@ export default function IconTextRow(props:Props) {
     return (
         <View style={[styles.row, props.style]}>
             {icon}
-            <Text style={{ color: props.color, fontSize: props.size}}>
+            <Text style={{ color: props.color, fontSize: props.size, flexShrink: 1}}>
                 {props.text}
             </Text>
         </View>
