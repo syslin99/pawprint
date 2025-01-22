@@ -18,12 +18,12 @@ class EntryAdmin(admin.ModelAdmin):
     fieldsets = [
         ('General information', {'fields': ['title', 'kind', 'recorded_on']}),
         ('Caretakers and Pets', {'fields': ['caretakers', 'pets']}),
-        ('Additional information', {'fields': ['notes', 'is_event']}),
+        ('Additional information', {'fields': ['notes', 'is_event', 'is_completed']}),
     ]
     filter_horizontal = ('caretakers', 'pets')
     autocomplete_fields = ['kind']
     # list customization
-    list_display = ['id', 'title', 'kind', 'recorded_on', 'get_caretakers', 'get_pets', 'notes', 'is_event']
+    list_display = ['id', 'title', 'kind', 'recorded_on', 'get_caretakers', 'get_pets', 'notes', 'is_event', 'is_completed']
     list_display_links = ['title']
 
     @admin.display(description='caretakers')
@@ -38,21 +38,24 @@ admin.site.register(Entry, EntryAdmin)
 
 class VitalsAdmin(admin.ModelAdmin):
     # form customization
-    fieldsets = [
-        (None, {'fields': ['entry']}),
-        ('Vitals reading', {'fields': ['measurement', 'unit']}),
+    fiedsets = [
+        ('General information', {'fields': ['title', 'kind', 'measurement', 'recorded_on']}),
+        ('Caretakers and Pets', {'fields': ['caretakers', 'pets']}),
+        ('Additional information', {'fields': ['notes', 'is_event', 'is_completed']}),
     ]
+    filter_horizontal = ('caretakers', 'pets')
+    autocomplete_fields = ['kind']
     # list customization
-    list_display = ['id', 'entry', 'measurement', 'unit', 'get_pet', 'get_date']
-    list_display_links = ['measurement']
+    list_display = ['id', 'title', 'kind', 'measurement', 'recorded_on', 'get_caretakers', 'get_pets', 'notes', 'is_event', 'is_completed']
+    list_display_links = ['title']
 
-    @admin.display(description='pet')
-    def get_pet(self, obj):
-        return obj.entry.pets.get()
+    @admin.display(description='caretakers')
+    def get_caretakers(self, obj):
+        return [c.name for c in obj.caretakers.all()]
 
-    @admin.display(description='date recorded')
-    def get_date(self, obj):
-        return obj.entry.recorded_on
+    @admin.display(description='pets')
+    def get_pets(self, obj):
+        return [p.name for p in obj.pets.all()]
 
 admin.site.register(Vitals, VitalsAdmin)
 

@@ -6,12 +6,12 @@ from ..models import Entry, Vitals, Picture
 class EntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ['id', 'title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event']
+        fields = ['id', 'title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed']
 
 class VitalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vitals
-        fields = ['id', 'entry', 'measurement', 'unit']
+        fields = ['id', 'title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed', 'measurement']
 
 class PictureSerializer(serializers.ModelSerializer):
     class Meta:

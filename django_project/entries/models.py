@@ -45,6 +45,7 @@ class Entry(models.Model):
     pets = models.ManyToManyField(Pet, related_name='entries')
     notes = models.CharField(max_length=500, blank=True)
     is_event = models.BooleanField('is event?', default=False)
+    is_completed = models.BooleanField('completed?', default=True)
 
     def __str__(self):
         return self.title
@@ -55,28 +56,15 @@ class Entry(models.Model):
             self.title = self.kind.name
         super().save(*args, **kwargs)
 
-class Vitals(models.Model):
-    """Contains additional vitals information associated with entries"""
+class Vitals(Entry):
+    """Represents entries for vitals readings"""
     class Meta:
         ordering = ['id']
 
-    WEIGHT_UNITS = 'lbs'
-    TEMPERATURE_UNITS = '°F'
-    HR_UNITS = 'bpm'
-    RR_UNITS = 'breaths/min'
-    UNIT_CHOICES = [
-        (WEIGHT_UNITS, 'lbs'),
-        (TEMPERATURE_UNITS, '°F'),
-        (HR_UNITS, 'bpm'),
-        (RR_UNITS, 'breaths/min'),
-    ]
-
-    entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
     measurement = models.DecimalField(max_digits=4, decimal_places=1)
-    unit = models.CharField(max_length=11, choices=UNIT_CHOICES)
 
     def __str__(self):
-        return self.entry.title
+        return self.title
 
 class Picture(models.Model):
     """Contains additional pictures associated with entries"""
