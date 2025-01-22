@@ -11,7 +11,7 @@ class EntrySerializer(serializers.ModelSerializer):
 class VitalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vitals
-        fields = ['id', 'title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed', 'measurement']
+        fields = ['id', 'title', 'kind', 'measurement', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed']
 
 class PictureSerializer(serializers.ModelSerializer):
     class Meta:
