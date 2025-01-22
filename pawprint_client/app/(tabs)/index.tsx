@@ -2,7 +2,7 @@ import { View, ScrollView, Text, StyleSheet} from 'react-native';
 import { useEffect } from 'react';
 
 import { THEME } from '@/theme';
-import { Pet, Contact } from '@/api_interfaces';
+import { Pet, Contact, Vitals } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
 import MainHeader from '@/components/MainHeader';
 
@@ -23,6 +23,7 @@ export default function Log() {
             const data:Pet[] = await response.json()
             data.forEach(pet => {
                 dispatch({ type: 'ADD_PET', payload: pet});
+                fetchVitalsData(pet.id);
             })
         } catch (error) {
             console.error('Error fetching pet data:', error)
@@ -38,6 +39,18 @@ export default function Log() {
             })
         } catch (error) {
             console.error('Error fetching contact data:', error)
+        }
+    }
+
+    const fetchVitalsData = async(pet_id:number) => {
+        try {
+            const response = await fetch(`http://192.168.86.81:8000/api/vitals/?pets=${pet_id}`)
+            const data:Vitals[] = await response.json()
+            data.forEach(vitals => {
+                dispatch({ type: 'ADD_VITALS', payload: vitals});
+            })
+        } catch (error) {
+            console.error('Error fetching vitals data:', error)
         }
     }
 

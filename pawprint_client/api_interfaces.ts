@@ -27,3 +27,25 @@ export interface Contact {
     email?: string;
     address?: string;
 }
+
+export interface Entry {
+    id: number;
+    title?: string;
+    kind?: number;
+    recorded_on?: string;
+    caretakers?: Array<number>;
+    pets?: Array<number>;
+    notes?: string;
+    is_event?: boolean;
+    is_completed?: boolean;
+}
+
+export interface Vitals extends Entry {
+    measurement?: number;
+}
+
+export interface Picture {
+    id: number;
+    entry?: number;
+    image?: string;
+}

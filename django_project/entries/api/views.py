@@ -17,7 +17,7 @@ class VitalsViewSet(viewsets.ModelViewSet):
     queryset = Vitals.objects.all()
     serializer_class = VitalsSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['id']
+    filterset_fields = ['id', 'pets']
 
 class PictureViewSet(viewsets.ModelViewSet):
     queryset = Picture.objects.all()

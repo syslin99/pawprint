@@ -59,7 +59,7 @@ class Entry(models.Model):
 class Vitals(Entry):
     """Represents entries for vitals readings"""
     class Meta:
-        ordering = ['id']
+        ordering = ['-recorded_on']
 
     measurement = models.DecimalField(max_digits=4, decimal_places=1)
 

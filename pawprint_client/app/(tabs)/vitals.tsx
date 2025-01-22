@@ -1,10 +1,14 @@
 import { View, ScrollView, Text, StyleSheet} from 'react-native';
 
 import { THEME } from '@/theme';
+import { useStoreContext } from '@/components/StoreContext';
 import MainHeader from '@/components/MainHeader';
 
 
 export default function Vitals() {
+    const { state, dispatch } = useStoreContext();
+    console.log(Array.from(state.vitals.keys()));
+
     return (
         <View style={styles.screen}>
             <MainHeader title='Vitals' />
