@@ -36,7 +36,7 @@ class Kind(models.Model):
 class Entry(models.Model):
     """Represents entries of pet care tasks, events, etc."""
     class Meta:
-        ordering = ['id']
+        ordering = ['-recorded_on']
 
     title = models.CharField(max_length=50, blank=True)
     kind = models.ForeignKey(Kind, on_delete=models.SET_DEFAULT, default=Kind.get_default_id, related_name='entries')
