@@ -12,19 +12,31 @@ export default function Log() {
     /* ----- cache information -----*/
     const { state, dispatch } = useStoreContext();
 
+    const HOST = 'http://192.168.86.81:8000';
+
     useEffect(() => {
-        fetchPetData();
-        fetchContactData();
+        initializeAppData();
+        // fetchPetData()
+        //     .then(fetchVitalsData)
+        //     .then(() => console.log('done'))
+        //     .catch(error => console.error('Error fetching data:', error));
+        // fetchContactData();
     }, [])
+
+    const initializeAppData = async() => {
+        const petData: Pet[] = await fetchPetData() ?? [];
+        fetchVitalsData(petData);
+        await fetchContactData();
+    }
 
     const fetchPetData = async() => {
         try {
-            const response = await fetch(`http://192.168.86.81:8000/api/caretakers/${state.caretakerId}/pets`);
+            const response = await fetch(`${HOST}/api/caretakers/${state.caretakerId}/pets`);
             const data:Pet[] = await response.json()
             data.forEach(pet => {
                 dispatch({ type: 'ADD_PET', payload: pet});
-                fetchVitalsData(pet.id);
             })
+            return data;
         } catch (error) {
             console.error('Error fetching pet data:', error)
         }
@@ -32,7 +44,7 @@ export default function Log() {
 
     const fetchContactData = async() => {
         try {
-            const response = await fetch(`http://192.168.86.81:8000/api/caretakers/${state.caretakerId}/contacts`);
+            const response = await fetch(`${HOST}/api/caretakers/${state.caretakerId}/contacts`);
             const data:Contact[] = await response.json()
             data.forEach(contact => {
                 dispatch({ type: 'ADD_CONTACT', payload: contact});
@@ -42,17 +54,22 @@ export default function Log() {
         }
     }
 
-    const fetchVitalsData = async(pet_id:number) => {
-        try {
-            const response = await fetch(`http://192.168.86.81:8000/api/vitals/?pets=${pet_id}`)
-            const data:Vitals[] = await response.json()
-            data.forEach(vitals => {
-                dispatch({ type: 'ADD_VITALS', payload: vitals});
-            })
-        } catch (error) {
-            console.error('Error fetching vitals data:', error)
-        }
+    const fetchVitalsData = (pets: Pet[]) => {
+        console.log(pets) // OUTPUT LINE 1
+        const pet_ids = Array.from(pets.keys())
+        console.log(pet_ids)    // OUTPUT LINE 2
     }
+    // const fetchVitalsData = async(pet_id:number) => {
+    //     try {
+    //         const response = await fetch(`http://192.168.86.81:8000/api/vitals/?pets=${pet_id}`)
+    //         const data:Vitals[] = await response.json()
+    //         data.forEach(vitals => {
+    //             dispatch({ type: 'ADD_VITALS', payload: vitals});
+    //         })
+    //     } catch (error) {
+    //         console.error('Error fetching vitals data:', error)
+    //     }
+    // }
 
     return (
         <View style={styles.screen}>
