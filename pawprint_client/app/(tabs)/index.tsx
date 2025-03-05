@@ -2,7 +2,7 @@ import { View, ScrollView, Text, StyleSheet} from 'react-native';
 import { useEffect } from 'react';
 
 import { THEME } from '@/theme';
-import { Pet, Contact, Vitals } from '@/api_interfaces';
+import { Pet, Contact, Entry } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
 import MainHeader from '@/components/MainHeader';
 
@@ -16,16 +16,11 @@ export default function Log() {
 
     useEffect(() => {
         initializeAppData();
-        // fetchPetData()
-        //     .then(fetchVitalsData)
-        //     .then(() => console.log('done'))
-        //     .catch(error => console.error('Error fetching data:', error));
-        // fetchContactData();
     }, [])
 
     const initializeAppData = async() => {
-        const petData: Pet[] = await fetchPetData() ?? [];
-        fetchVitalsData(petData);
+        const petData:Pet[] = await fetchPetData() ?? [];
+        const entrysData:Entry[] = await fetchEntrysData(petData) ?? [];
         await fetchContactData();
     }
 
@@ -54,22 +49,20 @@ export default function Log() {
         }
     }
 
-    const fetchVitalsData = (pets: Pet[]) => {
-        console.log(pets) // OUTPUT LINE 1
-        const pet_ids = Array.from(pets.keys())
-        console.log(pet_ids)    // OUTPUT LINE 2
+    const fetchEntrysData = async(pets: Pet[]) => {
+        const pet_ids = pets.map(pet => pet.id)
+        const pet_id_query = pet_ids.join('&pets=');
+        try {
+            const response = await fetch(`${HOST}/api/entrys/?pets=${pet_id_query}`);
+            const data:Entry[] = await response.json()
+            data.forEach(entry => {
+                dispatch({ type: 'ADD_ENTRY', payload: entry});
+            })
+            return data;
+        } catch (error) {
+            console.error('Error fetching entry data:', error)
+        }
     }
-    // const fetchVitalsData = async(pet_id:number) => {
-    //     try {
-    //         const response = await fetch(`http://192.168.86.81:8000/api/vitals/?pets=${pet_id}`)
-    //         const data:Vitals[] = await response.json()
-    //         data.forEach(vitals => {
-    //             dispatch({ type: 'ADD_VITALS', payload: vitals});
-    //         })
-    //     } catch (error) {
-    //         console.error('Error fetching vitals data:', error)
-    //     }
-    // }
 
     return (
         <View style={styles.screen}>

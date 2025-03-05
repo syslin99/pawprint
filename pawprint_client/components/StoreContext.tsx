@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { Pet, Contact, Vitals } from '@/api_interfaces';
+import { Pet, Contact, Entry } from '@/api_interfaces';
 
 
 /* ----- interfaces ----- */
@@ -12,26 +12,26 @@ interface Store {
     caretakerId: number,
     pets: Map<number, Pet>;
     contacts: Map<number, Contact>;
-    vitals: Map<number, Vitals>;
+    entrys: Map<number, Entry>;
 }
 
 interface Action {
     type: string;
-    payload: Pet | Contact | Vitals;
+    payload: Pet | Contact | Entry;
 }
 
 /* ----- type guarding ----- */
 
-function isPet(action: string, payload: Pet | Contact | Vitals) : payload is Pet {
+function isPet(action: string, payload: Pet | Contact | Entry) : payload is Pet {
     return action.endsWith('PET');
 }
 
-function isContact(action: string, payload: Pet | Contact | Vitals) : payload is Contact {
+function isContact(action: string, payload: Pet | Contact | Entry) : payload is Contact {
     return action.endsWith('CONTACT');
 }
 
-function isVitals(action: string, payload: Pet | Contact | Vitals) : payload is Vitals {
-    return action.endsWith('VITALS');
+function isEntry(action: string, payload: Pet | Contact | Entry) : payload is Entry {
+    return action.endsWith('ENTRY');
 }
 
 /* ----- context and reducer functions ----- */
@@ -41,7 +41,7 @@ const initialState:Store = {
     caretakerId: 1,  // PLACEHOLDER, until Login screen built
     pets: new Map<number, Pet>(),
     contacts: new Map<number, Contact>(),
-    vitals: new Map<number, Vitals>(),
+    entrys: new Map<number, Entry>(),
 }
 
 const storeReducer = (state: Store, action: Action) => {
@@ -67,12 +67,12 @@ const storeReducer = (state: Store, action: Action) => {
             default:
                 return state;
         }
-    } else if (isVitals(type, payload)) {
+    } else if (isEntry(type, payload)) {
         switch (type) {
-            case 'ADD_VITALS':
+            case 'ADD_ENTRY':
                 return {
                     ...state,
-                    vitals: new Map<number, Vitals>([...state.vitals.entries(), [payload.id, payload]]),
+                    entrys: new Map<number, Entry>([...state.entrys.entries(), [payload.id, payload]]),
                 }
             default:
                 return state;
