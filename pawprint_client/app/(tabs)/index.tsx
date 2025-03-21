@@ -76,5 +76,6 @@ export default function Log() {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        backgroundColor: THEME.COLOR_WHITE,
     },
 });
