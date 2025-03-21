@@ -7,6 +7,11 @@ export const THEME = {
     COLOR_WHITE: '#EFEFEF',
     COLOR_LIGHT_GREY: '#D9D9D9',
     COLOR_MEDIUM_GREY: '#3F535F',
+    COLOR_FOOD_WATER: '#69399C',
+    COLOR_CARE: '#CB7508',
+    COLOR_ACTIVITY: '#72953F',
+    COLOR_HEALTH: '#157B7E',
+    COLOR_OTHER: '#5A5A59',
 
     // spacing
     SPACE_4: 4,
