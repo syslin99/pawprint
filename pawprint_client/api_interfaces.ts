@@ -1,7 +1,8 @@
 export interface Caretaker {
     id: number;
-    email?: string;
-    password?: string;
+    name: string;
+    email: string;
+    password: string;
     pets?: Array<number>;
     contacts?: Array<number>;
 }
@@ -20,7 +21,7 @@ export interface Pet {
 
 export interface Contact {
     id: number;
-    name?: string;
+    name: string;
     role?: string;
     organization?: string;
     phone?: string;
@@ -30,22 +31,22 @@ export interface Contact {
 
 export interface Entry {
     id: number;
-    title?: string;
-    kind?: number;
-    recorded_on?: string;
-    caretakers?: Array<number>;
-    pets?: Array<number>;
+    title: string;
+    kind: number;
+    recorded_on: string;
+    caretakers: Array<number>;
+    pets: Array<number>;
     notes?: string;
-    is_event?: boolean;
-    is_completed?: boolean;
+    is_event: boolean;
+    is_completed: boolean;
 }
 
 export interface Vitals extends Entry {
-    measurement?: number;
+    measurement: number;
 }
 
 export interface Picture {
     id: number;
-    entry?: number;
-    image?: string;
+    entry: number;
+    image: string;
 }
