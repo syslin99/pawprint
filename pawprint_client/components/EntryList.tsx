@@ -24,6 +24,7 @@ export default function EntryList() {
             data={[...state.entrys.values()]}
             keyExtractor={item => String(item.id)}
             renderItem={renderItem}
+            ListFooterComponent={() => <View style={styles.spacer}></View>}
         />
     )
 }
@@ -32,7 +33,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: THEME.COLOR_WHITE,
-        margin: 16,
+        marginTop: 12,
+        marginLeft: 16,
+        marginRight: 16,
+    },
+    spacer: {
+        height: 38,
     },
     entryRow: {
         margin: 12,
