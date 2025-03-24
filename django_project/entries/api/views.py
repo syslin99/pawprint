@@ -1,21 +1,13 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
-from ..models import Entry, Vitals, Picture
-from .serializers import EntrySerializer
-from .serializers import VitalsSerializer
-from .serializers import PictureSerializer
+from ..models import Entry, Picture
+from .serializers import EntryPolymorphicSerializer, PictureSerializer
 
 
 class EntryViewSet(viewsets.ModelViewSet):
     queryset = Entry.objects.all()
-    serializer_class = EntrySerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['id', 'pets']
-
-class VitalsViewSet(viewsets.ModelViewSet):
-    queryset = Vitals.objects.all()
-    serializer_class = VitalsSerializer
+    serializer_class = EntryPolymorphicSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['id', 'pets']
 

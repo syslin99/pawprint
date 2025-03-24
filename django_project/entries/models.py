@@ -1,4 +1,5 @@
 from django.db import models
+from polymorphic.models import PolymorphicModel
 
 from caretakers.models import Caretaker
 from pets.models import Pet
@@ -33,7 +34,7 @@ class Kind(models.Model):
     def __str__(self):
         return self.name
 
-class Entry(models.Model):
+class Entry(PolymorphicModel):
     """Represents entries of pet care tasks, events, etc."""
     class Meta:
         ordering = ['-recorded_on']
