@@ -6,6 +6,7 @@ import { THEME } from '@/theme';
 import { FAKE_ID } from '@/constants';
 import { Pet } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
+import PetIcon from '@/components/PetIcon';
 
 
 export default function PetList() {
@@ -16,7 +17,7 @@ export default function PetList() {
         // add icon template
         if (item.id === Number.NEGATIVE_INFINITY) {
             return (
-                <Pressable onPress={() => alert('add pet')} style={styles.petIcon}>
+                <Pressable onPress={() => alert('add pet')} style={styles.addIcon}>
                     <Ionicons
                         name='add'
                         color={THEME.COLOR_DARK_BLUE}
@@ -36,10 +37,12 @@ export default function PetList() {
                 }}
                 asChild
             >
-                <Pressable>
-                    <Image
-                        source={{uri: item.image}}
-                        style={styles.petIcon}
+                <Pressable style={styles.petIcon}>
+                    <PetIcon
+                        pet={item}
+                        target_size={150}
+                        color={THEME.COLOR_DARK_BLUE}
+                        border={1}
                     />
                 </Pressable>
             </Link>
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: THEME.COLOR_WHITE,
         margin: 24,
     },
-    petIcon: {
+    addIcon: {
         backgroundColor: THEME.COLOR_WHITE,
         height: 150,
         width: 150,
@@ -72,6 +75,9 @@ const styles = StyleSheet.create({
         borderColor: THEME.COLOR_DARK_BLUE,
         alignItems: 'center',
         justifyContent: 'center',
+        margin: 16,
+    },
+    petIcon: {
         margin: 16,
     },
     text: {

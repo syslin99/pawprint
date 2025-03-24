@@ -6,6 +6,7 @@ import { useStoreContext } from '@/components/StoreContext';
 import SecondaryHeader from '@/components/SecondaryHeader';
 import IconTextRow from '@/components/IconTextRow';
 import ContactInfo from '@/components/ContactInfo';
+import PetIcon from '@/components/PetIcon';
 
 
 function calculateAge(birthdate:string) {
@@ -42,10 +43,14 @@ export default function PetProfile() {
             >
                 {/* General information */}
                 <View style={styles.backdrop}></View>
-                <Image
-                    source={{uri: pet.image}}
-                    style={styles.petImage}
-                />
+                <View style={styles.petIcon}>
+                    <PetIcon
+                        pet={pet}
+                        target_size={200}
+                        color={THEME.COLOR_DARK_BLUE}
+                        border={2}
+                    />
+                </View>
                 <Text style={styles.titleText}>{pet.name}</Text>
                 <View style={styles.generalInfo}>
                     {pet.birthdate && <IconTextRow
@@ -135,12 +140,7 @@ const styles = StyleSheet.create({
         borderBottomColor: THEME.COLOR_DARK_BLUE,
         borderBottomWidth: 2,
     },
-    petImage: {
-        height: 200,
-        width: 200,
-        borderRadius: 200 / 2,
-        borderWidth: 2,
-        borderColor: THEME.COLOR_DARK_BLUE,
+    petIcon: {
         marginTop: -150,
     },
     generalInfo: {
