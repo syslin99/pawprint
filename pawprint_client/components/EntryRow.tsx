@@ -3,6 +3,8 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { THEME } from '@/theme';
 import { Entry } from '@/api_interfaces';
 import KindIcon from '@/components/KindIcon';
+import { useStoreContext } from '@/components/StoreContext';
+import PetIconRow from '@/components/PetIconRow';
 
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -21,8 +23,11 @@ function convertDateTime(recorded_on:string) {
 }
 
 export default function EntryRow({entry} : {entry:Entry}) {
+    const { state, dispatch } = useStoreContext();
+
     const [date, time] = convertDateTime(entry.recorded_on)
     const caretaker_names = entry.caretakers.map(caretaker => caretaker.name).join(', ')
+    const pets = entry.pets.map(pet_id => state.pets.get(pet_id)).filter(pet => pet !== undefined)
 
     return (
         <Pressable
@@ -38,12 +43,15 @@ export default function EntryRow({entry} : {entry:Entry}) {
                 />
             </View>
             <View style={styles.textInfo}>
-                <View style={styles.headerRow}>
-                    <Text style={[styles.titleText, styles.leftText]}>{entry.title}</Text>
+                <View style={styles.splitRow}>
+                    <Text style={styles.titleText}>{entry.title}</Text>
                     <Text style={styles.secondaryText}>{time}</Text>
                 </View>
                 <Text style={styles.secondaryText}>placeholder notes / measurement text</Text>
-                <Text style={styles.primaryText}>with {caretaker_names}</Text>
+                <View style={styles.splitRow}>
+                    <Text style={styles.primaryText}>with {caretaker_names}</Text>
+                    <PetIconRow pets={pets}/>
+                </View>
             </View>
         </Pressable>
     )
@@ -81,14 +89,8 @@ const styles = StyleSheet.create({
         color: THEME.COLOR_MEDIUM_GREY,
         fontSize: 12,
     },
-    headerRow: {
+    splitRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    leftText: {
-        textAlign: 'left',
-    },
-    rightText: {
-        textAlign: 'right',
-    }
 })
