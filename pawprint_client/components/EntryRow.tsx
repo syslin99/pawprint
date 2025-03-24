@@ -47,11 +47,12 @@ export default function EntryRow({entry} : {entry:Entry}) {
                     <Text style={styles.titleText}>{entry.title}</Text>
                     <Text style={styles.secondaryText}>{time}</Text>
                 </View>
-                <Text style={styles.secondaryText}>placeholder notes / measurement text</Text>
+                {entry.notes && <Text style={styles.secondaryText} numberOfLines={1} ellipsizeMode='tail'>{entry.notes}</Text>}
                 <View style={styles.splitRow}>
                     <Text style={styles.primaryText}>with {caretaker_names}</Text>
                     <PetIconRow pets={pets}/>
                 </View>
+                {!entry.notes && <Text style={styles.secondaryText}></Text>}
             </View>
         </Pressable>
     )
