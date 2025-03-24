@@ -16,7 +16,7 @@ export interface Pet {
     chip?: string;
     image?: string;
     contacts?: Array<number>;
-    caretakers?: Array<{id:number, name:string}>
+    caretakers?: Array<{id:number, name:string}>;
 }
 
 export interface Contact {
@@ -40,7 +40,8 @@ export interface Entry {
     title: string;
     kind: Kind;
     recorded_on: string;
-    caretakers: Array<number>;
+    // caretakers: Array<number>;
+    caretakers: Array<{id:number, name:string}>;
     pets: Array<number>;
     notes?: string;
     is_event: boolean;

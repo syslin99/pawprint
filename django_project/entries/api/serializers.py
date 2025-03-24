@@ -11,9 +11,13 @@ class KindSerializer(serializers.ModelSerializer):
 
 class EntrySerializer(serializers.ModelSerializer):
     kind = KindSerializer()
+    caretakers = serializers.SerializerMethodField()
     class Meta:
         model = Entry
         fields = ['id', 'title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed']
+
+    def get_caretakers(self, obj):
+        return obj.caretakers.values('id', 'name')
 
 class VitalsSerializer(serializers.ModelSerializer):
     class Meta:
