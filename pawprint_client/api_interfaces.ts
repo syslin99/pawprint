@@ -16,7 +16,7 @@ export interface Pet {
     chip?: string;
     image?: string;
     contacts?: Array<number>;
-    caretakers?: Array<string>;
+    caretakers?: Array<{id:number, name:string}>
 }
 
 export interface Contact {

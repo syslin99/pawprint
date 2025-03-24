@@ -99,9 +99,9 @@ export default function PetProfile() {
                     <Text style={styles.headingText}>Caretakers</Text>
                     {pet.caretakers?.map(caretaker => {
                         return <Text
-                            key={caretaker}
+                            key={caretaker.id}
                             style={styles.subHeadingText}
-                        >{caretaker}</Text>
+                        >{caretaker.name}</Text>
                     })}
                 </View>
                 {/* Contact information */}

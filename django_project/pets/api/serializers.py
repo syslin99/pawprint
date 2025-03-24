@@ -12,4 +12,4 @@ class PetSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'birthdate', 'sex', 'breed', 'chip', 'image', 'contacts', 'caretakers']
 
     def get_caretakers(self, obj):
-        return obj.caretakers.values_list('name', flat=True)
+        return obj.caretakers.values('id', 'name')
