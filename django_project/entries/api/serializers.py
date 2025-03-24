@@ -1,9 +1,16 @@
 from rest_framework import serializers
 
-from ..models import Entry, Vitals, Picture
+from ..models import Kind, Entry, Vitals, Picture
 
+
+class KindSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
+    class Meta:
+        model = Kind
+        fields = ['id', 'name', 'category']
 
 class EntrySerializer(serializers.ModelSerializer):
+    kind = KindSerializer()
     class Meta:
         model = Entry
         fields = ['id', 'title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed']

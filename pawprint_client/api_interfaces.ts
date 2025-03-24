@@ -29,10 +29,16 @@ export interface Contact {
     address?: string;
 }
 
+export interface Kind {
+    id: number;
+    name: string;
+    category: string;
+}
+
 export interface Entry {
     id: number;
     title: string;
-    kind: number;
+    kind: Kind;
     recorded_on: string;
     caretakers: Array<number>;
     pets: Array<number>;
