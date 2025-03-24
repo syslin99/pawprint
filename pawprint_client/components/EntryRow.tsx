@@ -1,8 +1,8 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 
 import { THEME } from '@/theme';
 import { Entry } from '@/api_interfaces';
+import KindIcon from '@/components/KindIcon';
 
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -29,10 +29,11 @@ export default function EntryRow({entry} : {entry:Entry}) {
             style={styles.entryRow}>
 
             <View style={styles.kindIcon}>
-                <FontAwesome5
-                    name='utensils'
-                    color={THEME.COLOR_OTHER}
-                    size={24}
+                <KindIcon
+                    kind={entry.kind}
+                    font_size={24}
+                    target_size={45}
+                    border={1}
                 />
             </View>
             <View style={styles.textInfo}>
@@ -60,13 +61,6 @@ const styles = StyleSheet.create({
         borderColor: THEME.COLOR_LIGHT_BLUE,
     },
     kindIcon: {
-        height: 45,
-        width: 45,
-        borderRadius: 45 / 2,
-        borderWidth: 1,
-        borderColor: THEME.COLOR_DARK_BLUE,
-        alignItems: 'center',
-        justifyContent: 'center',
         marginRight: 16,
     },
     textInfo: {
