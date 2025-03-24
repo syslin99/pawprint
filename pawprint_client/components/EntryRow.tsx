@@ -22,6 +22,7 @@ function convertDateTime(recorded_on:string) {
 
 export default function EntryRow({entry} : {entry:Entry}) {
     const [date, time] = convertDateTime(entry.recorded_on)
+    const caretaker_names = entry.caretakers.map(caretaker => caretaker.name).join(', ')
 
     return (
         <Pressable
@@ -42,7 +43,7 @@ export default function EntryRow({entry} : {entry:Entry}) {
                     <Text style={styles.secondaryText}>{time}</Text>
                 </View>
                 <Text style={styles.secondaryText}>placeholder notes / measurement text</Text>
-                <Text style={styles.primaryText}>with caretakers{entry.caretakers}</Text>
+                <Text style={styles.primaryText}>with {caretaker_names}</Text>
             </View>
         </Pressable>
     )
