@@ -39,17 +39,13 @@ export interface Entry {
     id: number;
     title: string;
     kind: Kind;
+    measurement?: number;
     recorded_on: string;
-    // caretakers: Array<number>;
     caretakers: Array<{id:number, name:string}>;
     pets: Array<number>;
     notes?: string;
     is_event: boolean;
     is_completed: boolean;
-}
-
-export interface Vitals extends Entry {
-    measurement: number;
 }
 
 export interface Picture {

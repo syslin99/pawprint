@@ -22,10 +22,31 @@ function convertDateTime(recorded_on:string) {
     return [date, time]
 }
 
+function formatMeasurement(vitals_type:string, measurement:number|undefined) {
+    // not a vitals measurement
+    if (measurement === undefined) {
+        return ''
+    }
+
+    switch (vitals_type) {
+        case 'Weight':
+            return `${measurement.toFixed(1)} lbs`
+        case 'Temperature':
+            return `${measurement.toFixed(1)} \u00B0F`
+        case 'Heart Rate':
+            return `${measurement.toFixed(0)} bpm`
+        case 'Respiratory Rate':
+            return `${measurement.toFixed(0)} breaths/min`
+        default:
+            return ''
+    }
+}
+
 export default function EntryRow({entry} : {entry:Entry}) {
     const { state, dispatch } = useStoreContext();
 
     const [date, time] = convertDateTime(entry.recorded_on)
+    const measurement_string = formatMeasurement(entry.kind.name, entry.measurement)
     const caretaker_names = entry.caretakers.map(caretaker => caretaker.name).join(', ')
     const pets = entry.pets.map(pet_id => state.pets.get(pet_id)).filter(pet => pet !== undefined)
 
@@ -43,16 +64,22 @@ export default function EntryRow({entry} : {entry:Entry}) {
                 />
             </View>
             <View style={styles.textInfo}>
+                {/* first row - header */}
                 <View style={styles.splitRow}>
                     <Text style={styles.titleText}>{entry.title}</Text>
                     <Text style={styles.secondaryText}>{time}</Text>
                 </View>
-                {entry.notes && <Text style={styles.secondaryText} numberOfLines={1} ellipsizeMode='tail'>{entry.notes}</Text>}
+                {/* second row (optional) - vitals measurement or notes */}
+                {entry.measurement !== undefined ? (
+                    <Text style={styles.secondaryText}>{measurement_string}</Text>
+                ) : entry.notes && <Text style={styles.secondaryText} numberOfLines={1} ellipsizeMode='tail'>{entry.notes}</Text>}
+                {/* third row - caretakers and pets */}
                 <View style={styles.splitRow}>
                     <Text style={styles.primaryText}>with {caretaker_names}</Text>
                     <PetIconRow pets={pets}/>
                 </View>
-                {!entry.notes && <Text style={styles.secondaryText}></Text>}
+                {/* spacer, if no second row */}
+                {!entry.measurement && !entry.notes && <Text style={styles.secondaryText}></Text>}
             </View>
         </Pressable>
     )
