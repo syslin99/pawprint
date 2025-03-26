@@ -1,17 +1,16 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 import { THEME } from '@/theme';
+import { MONTHS_ABBR } from '@/constants';
 import { Entry } from '@/api_interfaces';
 import KindIcon from '@/components/KindIcon';
 import { useStoreContext } from '@/components/StoreContext';
 import PetIconRow from '@/components/PetIconRow';
 
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
 function convertDateTime(recorded_on:string) {
     const datetime = new Date(recorded_on)
-    const month = MONTHS[datetime.getMonth()]
+    const month = MONTHS_ABBR[datetime.getMonth()]
     const day = datetime.getDate().toString().padStart(2, '0')
     const year = datetime.getFullYear()
     const date = `${month} ${day}, ${year}`
