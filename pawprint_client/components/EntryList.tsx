@@ -1,4 +1,5 @@
-import { FlatList, View, Text, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { Link } from 'expo-router';
 
 import { THEME } from '@/theme';
 import { Entry } from '@/api_interfaces';
@@ -11,7 +12,17 @@ export default function EntryList() {
 
     const renderItem = ({item} : {item:Entry}) => {
         return (
-            <EntryRow entry={item}/>
+            <Link
+                href={{
+                    pathname: '/entries/[id]',
+                    params: {id:item.id},
+                }}
+                asChild
+            >
+                <Pressable>
+                    <EntryRow entry={item}/>
+                </Pressable>
+            </Link>
         )
     }
 

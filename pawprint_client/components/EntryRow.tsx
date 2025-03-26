@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import { THEME } from '@/theme';
 import { MONTHS_ABBR } from '@/constants';
@@ -50,10 +50,7 @@ export default function EntryRow({entry} : {entry:Entry}) {
     const pets = entry.pets.map(pet_id => state.pets.get(pet_id)).filter(pet => pet !== undefined)
 
     return (
-        <Pressable
-            onPress={() => alert(`entry - ${entry.title}`)}
-            style={styles.entryRow}>
-
+        <View style={styles.entryRow}>
             <View style={styles.kindIcon}>
                 <KindIcon
                     kind={entry.kind}
@@ -80,7 +77,7 @@ export default function EntryRow({entry} : {entry:Entry}) {
                 {/* spacer, if no second row */}
                 {!entry.measurement && !entry.notes && <Text style={styles.secondaryText}></Text>}
             </View>
-        </Pressable>
+        </View>
     )
 }
 
