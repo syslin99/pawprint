@@ -42,7 +42,7 @@ export interface Entry {
     measurement?: number;
     recorded_on: string;
     caretakers: Array<{id:number, name:string}>;
-    pets: Array<number>;
+    pets: Array<{id:number, name:string}>;
     notes?: string;
     is_event: boolean;
     is_completed: boolean;

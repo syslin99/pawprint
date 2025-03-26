@@ -47,7 +47,7 @@ export default function EntryRow({entry} : {entry:Entry}) {
     const [date, time] = convertDateTime(entry.recorded_on)
     const measurement_string = formatMeasurement(entry.kind.name, entry.measurement)
     const caretaker_names = entry.caretakers.map(caretaker => caretaker.name).join(', ')
-    const pets = entry.pets.map(pet_id => state.pets.get(pet_id)).filter(pet => pet !== undefined)
+    const pets = entry.pets.map(pet => state.pets.get(pet.id)).filter(pet => pet !== undefined)
 
     return (
         <View style={styles.entryRow}>
