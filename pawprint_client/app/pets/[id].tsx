@@ -2,21 +2,13 @@ import { View, ScrollView, Text, Image, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 
 import { THEME } from '@/theme';
+import { calculateAge } from '@/functions';
 import { useStoreContext } from '@/components/StoreContext';
 import SecondaryHeader from '@/components/SecondaryHeader';
 import IconTextRow from '@/components/IconTextRow';
 import ContactInfo from '@/components/ContactInfo';
 import PetIcon from '@/components/PetIcon';
 
-
-function calculateAge(birthdate:string) {
-    const target = new Date(birthdate)
-    const today = new Date();
-    const totalDiffMonths = (today.getFullYear() * 12 + today.getMonth()) - (target.getFullYear() * 12 + target.getMonth());
-    const years = Math.floor(totalDiffMonths / 12);
-    const months = Math.floor(totalDiffMonths % 12);
-    return {years, months}
-}
 
 export default function PetProfile() {
     const { id } = useLocalSearchParams();
