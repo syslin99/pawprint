@@ -10,6 +10,7 @@ export default function RootLayout() {
                 <Stack.Screen name='(tabs)' options={{ headerShown: false, statusBarStyle: 'light' }} />
                 <Stack.Screen name='settings' options={{ headerShown: false }} />
                 <Stack.Screen name='pets/[id]' options={{ headerShown: false }} />
+                <Stack.Screen name='entries/[id]' options={{headerShown: false }}/>
             </Stack>
         </StoreProvider>
     )

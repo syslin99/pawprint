@@ -1,10 +1,10 @@
-import { MONTHS_ABBR } from '@/constants';
+import { MONTHS_ABBR, MONTHS_FULL } from '@/constants';
 
 // entry functions
 export function convertDateTime(recorded_on:string) {
     const datetime = new Date(recorded_on)
-    const month = MONTHS_ABBR[datetime.getMonth()]
-    const day = datetime.getDate().toString().padStart(2, '0')
+    const month = MONTHS_FULL[datetime.getMonth()]
+    const day = datetime.getDate()
     const year = datetime.getFullYear()
     const date = `${month} ${day}, ${year}`
     const hours = datetime.getHours() % 12 == 0 ? 12 : datetime.getHours() % 12
