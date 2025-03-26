@@ -13,8 +13,8 @@ export default function Log() {
     /* ----- cache information -----*/
     const { state, dispatch } = useStoreContext();
 
-    // const HOST = 'http://192.168.86.81:8000';   // home
-    const HOST = 'http://192.168.1.106:8000';   // chris
+    const HOST = 'http://192.168.86.81:8000';   // home
+    // const HOST = 'http://192.168.1.106:8000';   // chris
 
     useEffect(() => {
         initializeAppData();
