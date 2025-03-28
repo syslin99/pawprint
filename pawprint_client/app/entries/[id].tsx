@@ -27,10 +27,13 @@ export default function EntryDetail() {
 
     const progress = useSharedValue<number>(0);
     const ref = useRef<ICarouselInstance>(null);
+    const imageWidth = Dimensions.get('window').width;
+    const imageHeight = imageWidth * 0.7
+
     const renderItem = ({item} : {item:string}) => (
         <Animated.Image
             source={{uri: item}}
-            style={{height: 300, width: windowWidth, borderRadius: 20}}
+            style={{height: imageHeight, width: imageWidth, borderRadius: 20}}
         />
     )
     const onPressPagination = (index:number) => {
@@ -39,7 +42,6 @@ export default function EntryDetail() {
             animated: false,
         })
     }
-    const windowWidth = Dimensions.get('window').width;
 
     return (
         <GestureHandlerRootView style={styles.screen}>
@@ -53,9 +55,9 @@ export default function EntryDetail() {
                 <View style={styles.carouselContainer}>
                     <Carousel
                         data={entry.pictures}
-                        height={300}
-                        width={windowWidth}
-                        style={{width: windowWidth}}
+                        height={imageHeight}
+                        width={imageWidth}
+                        style={{width: '100%'}}
                         loop={false}
                         pagingEnabled={true}
                         snapEnabled={true}
