@@ -32,7 +32,8 @@ export default function EntryList() {
             data={[...state.entrys.values()]}
             keyExtractor={item => String(item.id)}
             renderItem={renderItem}
-            ListFooterComponent={() => <View style={styles.spacer}></View>}
+            ListHeaderComponent={() => <View style={styles.topSpacer}></View>}
+            ListFooterComponent={() => <View style={styles.bottomSpacer}></View>}
         />
     )
 }
@@ -41,11 +42,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: THEME.COLOR_WHITE,
-        marginTop: 12,
         marginLeft: 16,
         marginRight: 16,
     },
-    spacer: {
+    topSpacer: {
+        height: 12,
+    },
+    bottomSpacer: {
         height: 38,
     },
 })
