@@ -46,10 +46,5 @@ export interface Entry {
     notes?: string;
     is_event: boolean;
     is_completed: boolean;
-}
-
-export interface Picture {
-    id: number;
-    entry: number;
-    image: string;
+    pictures: Array<string>;
 }
