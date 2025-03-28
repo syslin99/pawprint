@@ -1,4 +1,5 @@
-import { View, StyleSheet} from 'react-native';
+import { StyleSheet} from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useEffect } from 'react';
 
 import { THEME } from '@/theme';
@@ -67,10 +68,10 @@ export default function Log() {
     }
 
     return (
-        <View style={styles.screen}>
+        <GestureHandlerRootView style={styles.screen}>
             <MainHeader title='Log' />
             <EntryList />
-        </View>
+        </GestureHandlerRootView>
     );
 }
 
