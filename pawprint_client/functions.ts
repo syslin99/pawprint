@@ -1,16 +1,32 @@
 import { MONTHS_ABBR, MONTHS_FULL } from '@/constants';
 
 // entry functions
-export function convertDateTime(recorded_on:string) {
+export function convertDateTime(recorded_on:string, date_style:'full'|'abbreviated') {
     const datetime = new Date(recorded_on)
-    const month = MONTHS_FULL[datetime.getMonth()]
-    const day = datetime.getDate()
+    // format date
     const year = datetime.getFullYear()
-    const date = `${month} ${day}, ${year}`
+    let month, day, date
+    switch (date_style) {
+        case 'full':
+            month = MONTHS_FULL[datetime.getMonth()]
+            day = datetime.getDate()
+            date = `${month} ${day}, ${year}`
+            break;
+        case 'abbreviated':
+            month = MONTHS_ABBR[datetime.getMonth()]
+            day = datetime.getDate().toString().padStart(2, '0')
+            date = `${month} ${day}`
+            break;
+        default:
+            date = ''
+            break;
+    }
+    // format time
     const hours = datetime.getHours() % 12 == 0 ? 12 : datetime.getHours() % 12
     const minutes = datetime.getMinutes().toString().padStart(2, '0')
     const am_pm = datetime.getHours() < 12 ? 'am' : 'pm'
     const time = `${hours}:${minutes} ${am_pm}`
+
     return [date, time]
 }
 
