@@ -50,6 +50,12 @@ export function formatMeasurement(vitals_type:string, measurement:number|undefin
     }
 }
 
+export function isOverdue(due_date:string) {
+    const target = new Date(due_date)
+    const now = new Date();
+    return target < now
+}
+
 // pet functions
 export function calculateAge(birthdate:string) {
     const target = new Date(birthdate)
