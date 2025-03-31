@@ -9,6 +9,7 @@ import EntryRow from '@/components/EntryRow';
 
 export default function EntryList() {
     const { state, dispatch } = useStoreContext();
+    const completed_entries = [...state.entrys.values()].filter(entry => entry.is_completed)
 
     const renderItem = ({item} : {item:Entry}) => {
         return (
@@ -29,7 +30,7 @@ export default function EntryList() {
     return (
         <FlatList
             style={styles.container}
-            data={[...state.entrys.values()]}
+            data={completed_entries}
             keyExtractor={item => String(item.id)}
             renderItem={renderItem}
             ListHeaderComponent={() => <View style={styles.topSpacer}></View>}
