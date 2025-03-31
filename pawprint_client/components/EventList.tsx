@@ -9,6 +9,7 @@ import EventRow from '@/components/EventRow';
 
 export default function EventList() {
     const { state, dispatch } = useStoreContext();
+    const events = [...state.entrys.values()].filter(entry => entry.is_event)
 
     const renderItem = ({item} : {item:Entry}) => {
         return (
@@ -29,7 +30,7 @@ export default function EventList() {
     return (
         <FlatList
             style={styles.container}
-            data={[...state.entrys.values()]}
+            data={events}
             keyExtractor={item => String(item.id)}
             renderItem={renderItem}
             ListHeaderComponent={() => <View style={styles.topSpacer}></View>}
