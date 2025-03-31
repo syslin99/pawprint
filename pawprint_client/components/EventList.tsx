@@ -7,9 +7,24 @@ import { useStoreContext } from '@/components/StoreContext';
 import EventRow from '@/components/EventRow';
 
 
-export default function EventList() {
+interface Props {
+    version: 'upcoming' | 'completed';
+}
+
+export default function EventList({version} : Props) {
     const { state, dispatch } = useStoreContext();
-    const events = [...state.entrys.values()].filter(entry => entry.is_event)
+    let events:Entry[];
+    switch (version) {
+        case 'upcoming':
+            events = [...state.entrys.values()].filter(entry => entry.is_event && !entry.is_completed).reverse()
+            break;
+        case 'completed':
+            events = [...state.entrys.values()].filter(entry => entry.is_event && entry.is_completed)
+            break;
+        default:
+            events = []
+            break;
+    }
 
     const renderItem = ({item} : {item:Entry}) => {
         return (
@@ -33,7 +48,6 @@ export default function EventList() {
             data={events}
             keyExtractor={item => String(item.id)}
             renderItem={renderItem}
-            ListHeaderComponent={() => <View style={styles.topSpacer}></View>}
             ListFooterComponent={() => <View style={styles.bottomSpacer}></View>}
         />
     )
@@ -45,9 +59,6 @@ const styles = StyleSheet.create({
         backgroundColor: THEME.COLOR_WHITE,
         marginLeft: 16,
         marginRight: 16,
-    },
-    topSpacer: {
-        height: 12,
     },
     bottomSpacer: {
         height: 38,
