@@ -3,16 +3,20 @@ import { View, Text, StyleSheet } from 'react-native';
 import { THEME } from '@/theme';
 import { useStoreContext } from '@/components/StoreContext';
 import { Entry } from '@/api_interfaces';
-import { convertDateTime, formatMeasurement, isOverdue } from '@/functions';
+import { convertDateTime, formatMeasurement } from '@/functions';
 import KindIcon from '@/components/KindIcon';
 import PetIconRow from '@/components/PetIconRow';
 
 
-export default function EventRow({event} : {event:Entry}) {
+interface Props {
+    event: Entry,
+    overdue: boolean,
+}
+
+export default function EventRow({event, overdue} : Props) {
     const { state, dispatch } = useStoreContext();
 
     const [date, time] = convertDateTime(event.recorded_on, 'abbreviated')
-    const overdue = !event.is_completed && isOverdue(event.recorded_on)
     const measurement_string = formatMeasurement(event.kind.name, event.measurement)
     const caretaker_names = event.caretakers.map(caretaker => caretaker.name).join(', ')
     const pets = event.pets.map(pet => state.pets.get(pet.id)).filter(pet => pet !== undefined)

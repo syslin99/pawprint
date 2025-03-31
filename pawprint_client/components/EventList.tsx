@@ -1,32 +1,45 @@
-import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { SectionList, View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 
 import { THEME } from '@/theme';
 import { Entry } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
+import { isOverdue } from '@/functions';
 import EventRow from '@/components/EventRow';
 
 
 interface Props {
     version: 'upcoming' | 'completed';
 }
+interface Section {
+    title: string,
+    data: Entry[]
+}
 
 export default function EventList({version} : Props) {
     const { state, dispatch } = useStoreContext();
-    let events:Entry[];
+    let sections:Section[];
     switch (version) {
         case 'upcoming':
-            events = [...state.entrys.values()].filter(entry => entry.is_event && !entry.is_completed).reverse()
+            const overdue_events = [...state.entrys.values()].filter(entry => entry.is_event && !entry.is_completed && isOverdue(entry.recorded_on)).reverse()
+            const upcoming_events = [...state.entrys.values()].filter(entry => entry.is_event && !entry.is_completed && !isOverdue(entry.recorded_on)).reverse()
+            sections = [
+                {title: 'Overdue', data: overdue_events,},
+                {title: 'Upcoming', data: upcoming_events,},
+            ]
             break;
         case 'completed':
-            events = [...state.entrys.values()].filter(entry => entry.is_event && entry.is_completed)
+            const completed_events = [...state.entrys.values()].filter(entry => entry.is_event && entry.is_completed)
+            sections = [
+                {title: 'Completed', data: completed_events,},
+            ]
             break;
         default:
-            events = []
+            sections = []
             break;
     }
 
-    const renderItem = ({item} : {item:Entry}) => {
+    const renderItem = ({item, section} : {item:Entry, section:Section}) => {
         return (
             <Link
                 href={{
@@ -36,18 +49,26 @@ export default function EventList({version} : Props) {
                 asChild
             >
                 <Pressable>
-                    <EventRow event={item}/>
+                    <EventRow event={item} overdue={section.title === 'Overdue'}/>
                 </Pressable>
             </Link>
         )
     }
 
     return (
-        <FlatList
+        <SectionList
             style={styles.container}
-            data={events}
+            sections={sections}
             keyExtractor={item => String(item.id)}
             renderItem={renderItem}
+            renderSectionHeader={({section}) => {
+                if (section.title === 'Overdue') {
+                    return <Text style={styles.overdueText}>{section.title}</Text>
+                } else if (section.title === 'Upcoming') {
+                    return <View style={styles.overdueDivider}></View>
+                }
+                return null;
+            }}
             ListFooterComponent={() => <View style={styles.bottomSpacer}></View>}
         />
     )
@@ -59,6 +80,15 @@ const styles = StyleSheet.create({
         backgroundColor: THEME.COLOR_WHITE,
         marginLeft: 16,
         marginRight: 16,
+    },
+    overdueText: {
+        color: THEME.COLOR_ERROR,
+        fontSize: 16,
+        marginLeft: 16,
+    },
+    overdueDivider: {
+        height: 1,
+        backgroundColor: THEME.COLOR_ERROR,
     },
     bottomSpacer: {
         height: 38,
