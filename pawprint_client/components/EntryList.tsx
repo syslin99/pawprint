@@ -1,15 +1,43 @@
-import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { SectionList, View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 
 import { THEME } from '@/theme';
 import { Entry } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
+import { convertDateTime } from '@/functions';
 import EntryRow from '@/components/EntryRow';
 
+
+interface Section {
+    date: string;
+    data: Entry[];
+}
 
 export default function EntryList() {
     const { state, dispatch } = useStoreContext();
     const completed_entries = [...state.entrys.values()].filter(entry => entry.is_completed)
+
+    // group entries by date
+    var sections:Section[] = [];
+    var curr_date:string|null = null;
+    var curr_data:Entry[] = [];
+    completed_entries.forEach(entry => {
+        const [entry_date, entry_time] = convertDateTime(entry.recorded_on, 'full')
+        // new date section
+        if (!curr_date || curr_date !== entry_date) {
+            // add new section, if not initial runthrough
+            if (curr_date) {
+                const curr_section = {date: curr_date, data: curr_data}
+                sections.push(curr_section)
+            }
+            // reset trackers
+            curr_date = entry_date
+            curr_data = [entry]
+        } else {
+        // current date section
+            curr_data.push(entry)
+        }
+    });
 
     const renderItem = ({item} : {item:Entry}) => {
         return (
@@ -28,11 +56,19 @@ export default function EntryList() {
     }
 
     return (
-        <FlatList
+        <SectionList
             style={styles.container}
-            data={completed_entries}
+            sections={sections}
             keyExtractor={item => String(item.id)}
             renderItem={renderItem}
+            renderSectionHeader={({section}) => {
+                return (
+                    <View>
+                        <View style={styles.dateDivider}></View>
+                        <Text style={styles.dateText}>{section.date}</Text>
+                    </View>
+                )
+            }}
             ListHeaderComponent={() => <View style={styles.topSpacer}></View>}
             ListFooterComponent={() => <View style={styles.bottomSpacer}></View>}
         />
@@ -45,6 +81,16 @@ const styles = StyleSheet.create({
         backgroundColor: THEME.COLOR_WHITE,
         marginLeft: 16,
         marginRight: 16,
+    },
+    dateDivider: {
+        height: 1,
+        backgroundColor: THEME.COLOR_DARK_BLUE,
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    dateText: {
+        color: THEME.COLOR_DARK_BLUE,
+        fontSize: 16,
     },
     topSpacer: {
         height: 12,

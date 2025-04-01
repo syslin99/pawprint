@@ -6,6 +6,7 @@ export const FAKE_ID = Number.NEGATIVE_INFINITY;
 // entry constants
 export const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 export const MONTHS_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+export const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 export const KIND_ICONS : {[key:string] : string}  = {
     'Meal': 'utensils',
     'Water': 'tint',
