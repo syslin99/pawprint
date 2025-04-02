@@ -33,7 +33,8 @@ export function convertDateTime(recorded_on:string, date_style:'fullText'|'fullN
     const am_pm = datetime.getHours() < 12 ? 'am' : 'pm'
     const time = `${hours}:${minutes} ${am_pm}`
 
-    return [date, time]
+    // return [date, time]
+    return {date, time}
 }
 
 export function formatMeasurement(vitals_type:string, measurement:number|undefined) {

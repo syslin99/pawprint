@@ -19,7 +19,7 @@ interface Props {
 export default function EventRow({event, overdue, version} : Props) {
     const { state, dispatch } = useStoreContext();
 
-    const [date, time] = convertDateTime(event.recorded_on, 'abbreviated')
+    const {date, time} = convertDateTime(event.recorded_on, 'abbreviated')
     const measurement_string = formatMeasurement(event.kind.name, event.measurement)
     const caretaker_names = event.caretakers.map(caretaker => caretaker.name).join(', ')
     const pets = event.pets.map(pet => state.pets.get(pet.id)).filter(pet => pet !== undefined)

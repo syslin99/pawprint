@@ -22,7 +22,7 @@ export default function EntryDetail() {
 
     const pet_names = entry.pets.map(pet => pet.name).join(', ')
     const caretaker_names = entry.caretakers.map(caretaker => caretaker.name).join(', ')
-    const [date, time] = convertDateTime(entry.recorded_on, 'fullText')
+    const {date, time} = convertDateTime(entry.recorded_on, 'fullText')
     const measurement = formatMeasurement(entry.kind.name, entry.measurement)
 
     const progress = useSharedValue<number>(0);
