@@ -49,7 +49,7 @@ export default function EventList({version} : Props) {
                 asChild
             >
                 <Pressable>
-                    <EventRow event={item} overdue={section.title === 'Overdue'}/>
+                    <EventRow event={item} overdue={section.title === 'Overdue'} version={version}/>
                 </Pressable>
             </Link>
         )

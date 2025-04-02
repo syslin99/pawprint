@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet} from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useState } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -11,7 +12,7 @@ export default function Events() {
     const [selectedSegment, setSelectedSegment] = useState<'upcoming'|'completed'>('upcoming');
 
     return (
-        <View style={styles.screen}>
+        <GestureHandlerRootView style={styles.screen}>
             <MainHeader title='Events'/>
             <View style={styles.centerContent}>
                 <View style={styles.buttonContainer}>
@@ -42,7 +43,7 @@ export default function Events() {
                 </View>
             </View>
             <EventList version={selectedSegment}/>
-        </View>
+        </GestureHandlerRootView>
     );
     }
 

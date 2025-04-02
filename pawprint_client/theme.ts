@@ -12,6 +12,7 @@ export const THEME = {
     COLOR_ACTIVITY: '#72953F',
     COLOR_HEALTH: '#157B7E',
     COLOR_OTHER: '#5A5A59',
+    COLOR_SUCCESS: '#1FA000',
     COLOR_ERROR: '#B00020',
 
     // spacing

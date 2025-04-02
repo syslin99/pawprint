@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import { THEME } from '@/theme';
 import { useStoreContext } from '@/components/StoreContext';
@@ -11,9 +13,10 @@ import PetIconRow from '@/components/PetIconRow';
 interface Props {
     event: Entry,
     overdue: boolean,
+    version: 'upcoming' | 'completed';
 }
 
-export default function EventRow({event, overdue} : Props) {
+export default function EventRow({event, overdue, version} : Props) {
     const { state, dispatch } = useStoreContext();
 
     const [date, time] = convertDateTime(event.recorded_on, 'abbreviated')
@@ -21,38 +24,75 @@ export default function EventRow({event, overdue} : Props) {
     const caretaker_names = event.caretakers.map(caretaker => caretaker.name).join(', ')
     const pets = event.pets.map(pet => state.pets.get(pet.id)).filter(pet => pet !== undefined)
 
+    const renderRightActions = () => {
+        switch (version) {
+            case 'upcoming':
+                return (
+                    <Pressable
+                        style={[styles.actionButton, styles.completeAction]}
+                        onPress={() => alert('Mark complete')}
+                    >
+                        <FontAwesome5
+                            name='check-circle'
+                            color={THEME.COLOR_WHITE}
+                            size={28}
+                        />
+                    </Pressable>
+                )
+            case 'completed':
+                return (
+                    <Pressable
+                        style={[styles.actionButton, styles.incompleteAction]}
+                        onPress={() => alert('Mark incomplete')}
+                    >
+                        <FontAwesome5
+                            name='times-circle'
+                            color={THEME.COLOR_WHITE}
+                            size={28}
+                        />
+                    </Pressable>
+                )
+            default:
+                return null
+        }
+    }
+
     return (
-        <View style={styles.eventRow}>
-            {/* Due Date */}
-            <View style={[styles.dueDate, overdue && styles.overdue]}>
-                <Text style={[styles.dateText, overdue && styles.overdue]}>{date}</Text>
-                <Text style={[styles.timeText, overdue && styles.overdue]}>{time}</Text>
-            </View>
-            {/* General Information */}
-            <View style={styles.kindIcon}>
-                <KindIcon
-                    kind={event.kind}
-                    font_size={24}
-                    target_size={45}
-                    border={1}
-                />
-            </View>
-            <View style={styles.textInfo}>
-                {/* first row - header */}
-                <Text style={styles.titleText}>{event.title}</Text>
-                {/* second row (optional) - vitals measurement or notes */}
-                {event.measurement !== undefined ? (
-                    <Text style={styles.secondaryText}>{measurement_string}</Text>
-                ) : event.notes && <Text style={styles.secondaryText} numberOfLines={1} ellipsizeMode='tail'>{event.notes}</Text>}
-                {/* third row - caretakers and pets */}
-                <View style={styles.splitRow}>
-                    <Text style={styles.primaryText}>with {caretaker_names}</Text>
-                    <PetIconRow pets={pets}/>
+        <Swipeable
+            renderRightActions={renderRightActions}
+        >
+            <View style={styles.eventRow}>
+                {/* Due Date */}
+                <View style={[styles.dueDate, overdue && styles.overdue]}>
+                    <Text style={[styles.dateText, overdue && styles.overdue]}>{date}</Text>
+                    <Text style={[styles.timeText, overdue && styles.overdue]}>{time}</Text>
                 </View>
-                {/* spacer, if no second row */}
-                {!event.measurement && !event.notes && <Text style={styles.secondaryText}></Text>}
+                {/* General Information */}
+                <View style={styles.kindIcon}>
+                    <KindIcon
+                        kind={event.kind}
+                        font_size={24}
+                        target_size={45}
+                        border={1}
+                    />
+                </View>
+                <View style={styles.textInfo}>
+                    {/* first row - header */}
+                    <Text style={styles.titleText}>{event.title}</Text>
+                    {/* second row (optional) - vitals measurement or notes */}
+                    {event.measurement !== undefined ? (
+                        <Text style={styles.secondaryText}>{measurement_string}</Text>
+                    ) : event.notes && <Text style={styles.secondaryText} numberOfLines={1} ellipsizeMode='tail'>{event.notes}</Text>}
+                    {/* third row - caretakers and pets */}
+                    <View style={styles.splitRow}>
+                        <Text style={styles.primaryText}>with {caretaker_names}</Text>
+                        <PetIconRow pets={pets}/>
+                    </View>
+                    {/* spacer, if no second row */}
+                    {!event.measurement && !event.notes && <Text style={styles.secondaryText}></Text>}
+                </View>
             </View>
-        </View>
+        </Swipeable>
     )
 }
 
@@ -65,6 +105,17 @@ const styles = StyleSheet.create({
         backgroundColor: THEME.COLOR_WHITE,
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    actionButton: {
+        width: '20%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    completeAction: {
+        backgroundColor: THEME.COLOR_SUCCESS,
+    },
+    incompleteAction: {
+        backgroundColor: THEME.COLOR_ERROR,
     },
     dueDate: {
         alignItems: 'center',
