@@ -11,7 +11,7 @@ import PetIcon from '@/components/PetIcon';
 
 export default function PetList() {
     const { state, dispatch } = useStoreContext();
-    const addIcon = {id: FAKE_ID};
+    const addIcon = {id: FAKE_ID, name:'', image:''};
 
     const renderItem = ({item} : {item:Pet}) => {
         // add icon template

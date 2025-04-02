@@ -9,12 +9,12 @@ export interface Caretaker {
 
 export interface Pet {
     id: number;
-    name?: string;
+    name: string;
     birthdate?: string;
     sex?: string;
     breed?: string;
     chip?: string;
-    image?: string;
+    image: string;
     contacts?: Array<number>;
     caretakers?: Array<{id:number, name:string}>;
 }
