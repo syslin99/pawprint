@@ -1,17 +1,22 @@
 import { MONTHS_ABBR, MONTHS_FULL, DAYS_OF_WEEK } from '@/constants';
 
 // entry functions
-export function convertDateTime(recorded_on:string, date_style:'full'|'abbreviated') {
+export function convertDateTime(recorded_on:string, date_style:'fullText'|'fullNumbers'|'abbreviated') {
     const datetime = new Date(recorded_on)
     // format date
     const year = datetime.getFullYear()
     let month, day, day_name, date
     switch (date_style) {
-        case 'full':
+        case 'fullText':
             month = MONTHS_FULL[datetime.getMonth()]
             day = datetime.getDate()
             day_name = DAYS_OF_WEEK[datetime.getDay()]
             date = `${day_name}, ${month} ${day}, ${year}`
+            break;
+        case 'fullNumbers':
+            month = (datetime.getMonth() + 1).toString().padStart(2, '0')
+            day = datetime.getDate().toString().padStart(2, '0')
+            date = `${month}/${day}/${year}`
             break;
         case 'abbreviated':
             month = MONTHS_ABBR[datetime.getMonth()]

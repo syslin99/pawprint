@@ -22,7 +22,7 @@ export default function EntryList() {
     var curr_date:string|null = null;
     var curr_data:Entry[] = [];
     completed_entries.forEach(entry => {
-        const [entry_date, entry_time] = convertDateTime(entry.recorded_on, 'full')
+        const [entry_date, entry_time] = convertDateTime(entry.recorded_on, 'fullText')
         // new date section
         if (!curr_date || curr_date !== entry_date) {
             // add new section, if not initial runthrough
