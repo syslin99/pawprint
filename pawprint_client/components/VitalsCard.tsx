@@ -55,7 +55,7 @@ export default function VitalsCard({pet} : Props) {
                         <Text style={styles.vitalsText}>
                             {formatMeasurement('Weight', (weight as Vitals).measurement)}
                         </Text> :
-                        <Text style={styles.vitalsText}>--</Text>
+                        <Text style={styles.blankText}>{'\u2014'}</Text>
                     }
                 </View>
                 {weight && <Text style={styles.vitalsText}>{convertDateTime((weight as Vitals).recorded_on, 'fullNumbers').date}</Text>}
@@ -73,7 +73,7 @@ export default function VitalsCard({pet} : Props) {
                         <Text style={styles.vitalsText}>
                             {formatMeasurement('Temperature', (temperature as Vitals).measurement)}
                         </Text> :
-                        <Text style={styles.vitalsText}>--</Text>
+                        <Text style={styles.blankText}>{'\u2014'}</Text>
                     }
                 </View>
                 {temperature && <Text style={styles.vitalsText}>{convertDateTime((temperature as Vitals).recorded_on, 'fullNumbers').date}</Text>}
@@ -91,7 +91,7 @@ export default function VitalsCard({pet} : Props) {
                         <Text style={styles.vitalsText}>
                             {formatMeasurement('Heart Rate', (heartRate as Vitals).measurement)}
                         </Text> :
-                        <Text style={styles.vitalsText}>--</Text>
+                        <Text style={styles.blankText}>{'\u2014'}</Text>
                     }
                 </View>
                 {heartRate && <Text style={styles.vitalsText}>{convertDateTime((heartRate as Vitals).recorded_on, 'fullNumbers').date}</Text>}
@@ -109,7 +109,7 @@ export default function VitalsCard({pet} : Props) {
                         <Text style={styles.vitalsText}>
                             {formatMeasurement('Respiratory Rate', (respiratoryRate as Vitals).measurement)}
                         </Text> :
-                        <Text style={styles.vitalsText}>--</Text>
+                        <Text style={styles.blankText}>{'\u2014'}</Text>
                     }
                 </View>
                 {respiratoryRate && <Text style={styles.vitalsText}>{convertDateTime((respiratoryRate as Vitals).recorded_on, 'fullNumbers').date}</Text>}
@@ -146,6 +146,10 @@ const styles = StyleSheet.create({
     },
     vitalsText: {
         color: THEME.COLOR_DARK_BLUE,
+        fontSize: 20,
+    },
+    blankText: {
+        color: THEME.COLOR_MEDIUM_GREY,
         fontSize: 20,
     },
 })
