@@ -2,7 +2,7 @@ import { View, Text, StyleSheet} from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { THEME } from '@/theme';
-import { Pet, Kind } from '@/api_interfaces';
+import { Pet, Kind, Vitals } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
 import { convertDateTime, formatMeasurement } from '@/functions';
 
@@ -10,17 +10,12 @@ import { convertDateTime, formatMeasurement } from '@/functions';
 interface Props {
     pet: Pet
 }
-interface Vitals {
-    kind: Kind,
-    recorded_on: string,
-    measurement: number,
-}
 
 export default function VitalsCard({pet} : Props) {
     const { state, dispatch } = useStoreContext();
     const vitals:Vitals[] = [...state.entrys.values()]
         .filter(entry => entry.pets[0].id === pet.id && entry.measurement)
-        .map(({kind, recorded_on, measurement}) => ({kind, recorded_on, measurement: measurement ?? 0}));
+        .map(({kind, recorded_on, measurement}) => ({kind, recorded_on, value: measurement ?? 0}));
 
     // retrieve last readings
     var weight:Vitals|null = null;
@@ -53,7 +48,7 @@ export default function VitalsCard({pet} : Props) {
                     />
                     {weight ?
                         <Text style={styles.vitalsText}>
-                            {formatMeasurement('Weight', (weight as Vitals).measurement)}
+                            {formatMeasurement('Weight', (weight as Vitals).value)}
                         </Text> :
                         <Text style={styles.blankText}>{'\u2014'}</Text>
                     }
@@ -71,7 +66,7 @@ export default function VitalsCard({pet} : Props) {
                     />
                     {temperature ?
                         <Text style={styles.vitalsText}>
-                            {formatMeasurement('Temperature', (temperature as Vitals).measurement)}
+                            {formatMeasurement('Temperature', (temperature as Vitals).value)}
                         </Text> :
                         <Text style={styles.blankText}>{'\u2014'}</Text>
                     }
@@ -89,7 +84,7 @@ export default function VitalsCard({pet} : Props) {
                     />
                     {heartRate ?
                         <Text style={styles.vitalsText}>
-                            {formatMeasurement('Heart Rate', (heartRate as Vitals).measurement)}
+                            {formatMeasurement('Heart Rate', (heartRate as Vitals).value)}
                         </Text> :
                         <Text style={styles.blankText}>{'\u2014'}</Text>
                     }
@@ -107,7 +102,7 @@ export default function VitalsCard({pet} : Props) {
                     />
                     {respiratoryRate ?
                         <Text style={styles.vitalsText}>
-                            {formatMeasurement('Respiratory Rate', (respiratoryRate as Vitals).measurement)}
+                            {formatMeasurement('Respiratory Rate', (respiratoryRate as Vitals).value)}
                         </Text> :
                         <Text style={styles.blankText}>{'\u2014'}</Text>
                     }

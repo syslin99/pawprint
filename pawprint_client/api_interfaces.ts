@@ -48,3 +48,9 @@ export interface Entry {
     is_completed: boolean;
     pictures: Array<string>;
 }
+
+export interface Vitals {
+    kind: Kind;
+    recorded_on: string;
+    value: number;
+}
