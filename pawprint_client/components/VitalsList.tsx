@@ -1,4 +1,5 @@
-import { FlatList, View, StyleSheet} from 'react-native';
+import { FlatList, Pressable, View, StyleSheet} from 'react-native';
+import { Link } from 'expo-router';
 
 import { THEME } from '@/theme';
 import { Pet } from '@/api_interfaces';
@@ -12,7 +13,17 @@ export default function VitalsList() {
 
     const renderItem = ({item} : {item:Pet}) => {
         return (
-            <VitalsCard pet={item}/>
+            <Link
+                href={{
+                    pathname: '/vitals/[pet_id]',
+                    params: {pet_id:item.id},
+                }}
+                asChild
+            >
+                <Pressable>
+                    <VitalsCard pet={item}/>
+                </Pressable>
+            </Link>
         )
     }
 
