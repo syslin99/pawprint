@@ -15,7 +15,7 @@ export default function VitalsCard({pet} : Props) {
     const { state, dispatch } = useStoreContext();
     const vitals:Vitals[] = [...state.entrys.values()]
         .filter(entry => entry.pets[0].id === pet.id && entry.measurement)
-        .map(({kind, recorded_on, measurement}) => ({kind, recorded_on, value: measurement ?? 0}));
+        .map(({id, kind, recorded_on, measurement}) => ({id, kind, recorded_on, value: measurement ?? 0}));
 
     // retrieve last readings
     var weight:Vitals|null = null;

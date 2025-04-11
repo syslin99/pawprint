@@ -50,6 +50,7 @@ export interface Entry {
 }
 
 export interface Vitals {
+    id: number;
     kind: Kind;
     recorded_on: string;
     value: number;

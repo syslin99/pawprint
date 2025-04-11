@@ -15,7 +15,7 @@ export default function VitalsChart({pet_id} : Props) {
     const { state, dispatch } = useStoreContext();
     const data:Vitals[] = [...state.entrys.values()]
         .filter(entry => entry.pets[0].id === pet_id && entry.kind.name === 'Weight')
-        .map(({kind, recorded_on, measurement}) => ({kind, recorded_on, value: measurement ?? 0}));
+        .map(({id, kind, recorded_on, measurement}) => ({id, kind, recorded_on, value: measurement ?? 0}));
     const avg = calculateAverage(data)
 
     const chartWidth = Dimensions.get('window').width - 120;
