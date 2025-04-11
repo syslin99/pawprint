@@ -3,14 +3,21 @@ import { LineChart } from 'react-native-gifted-charts';
 
 import { THEME } from '@/theme';
 import { Vitals } from '@/api_interfaces';
+import { useStoreContext } from '@/components/StoreContext';
+import { calculateAverage } from '@/functions';
 
 
 interface Props {
-    data: Vitals[];
-    avg: number;
+    pet_id: number;
 }
 
-export default function VitalsChart({data, avg} : Props) {
+export default function VitalsChart({pet_id} : Props) {
+    const { state, dispatch } = useStoreContext();
+    const data:Vitals[] = [...state.entrys.values()]
+        .filter(entry => entry.pets[0].id === pet_id && entry.kind.name === 'Weight')
+        .map(({kind, recorded_on, measurement}) => ({kind, recorded_on, value: measurement ?? 0}));
+    const avg = calculateAverage(data)
+
     const chartWidth = Dimensions.get('window').width - 120;
 
     return (

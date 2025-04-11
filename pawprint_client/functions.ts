@@ -1,6 +1,8 @@
+import { Vitals } from '@/api_interfaces';
 import { MONTHS_ABBR, MONTHS_FULL, DAYS_OF_WEEK } from '@/constants';
 
-// entry functions
+
+/* ----- entry functions ----- */
 export function convertDateTime(recorded_on:string, date_style:'fullText'|'fullNumbers'|'abbreviated') {
     const datetime = new Date(recorded_on)
     // format date
@@ -63,7 +65,18 @@ export function isOverdue(due_date:string) {
     return target < now
 }
 
-// pet functions
+export function calculateAverage(data:Vitals[]) {
+    // empty array
+    if (data.length === 0) {
+        return 0
+    }
+
+    const sum = data.reduce((accumulator, currData) => accumulator + currData.value, 0);
+    const avg = sum / data.length;
+    return avg
+}
+
+/* ----- pet functions ----- */
 export function calculateAge(birthdate:string) {
     const target = new Date(birthdate)
     const today = new Date();
