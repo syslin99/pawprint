@@ -5,6 +5,7 @@ import { THEME } from '@/theme';
 import { useStoreContext } from '@/components/StoreContext';
 import SecondaryHeader from '@/components/SecondaryHeader';
 import VitalsChart from '@/components/VitalsChart';
+import VitalsReadingList from '@/components/VitalsReadingList';
 
 
 export default function VitalsHistory() {
@@ -21,6 +22,7 @@ export default function VitalsHistory() {
             <SecondaryHeader title='Vitals History' hasEditActions={false} />
             <Text style={styles.titleText}>{pet.name}'s Weight</Text>
             <VitalsChart pet_id={Number(pet_id)}/>
+            <VitalsReadingList pet_id={Number(pet_id)}/>
         </View>
     )
 }

@@ -42,7 +42,6 @@ export default function VitalsChart({pet_id} : Props) {
 
 const styles = StyleSheet.create({
     chart: {
-        flex: 1,
         marginLeft: 32,
         marginRight: 32,
     },
