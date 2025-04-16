@@ -4,25 +4,26 @@ import { LineChart } from 'react-native-gifted-charts';
 import { THEME } from '@/theme';
 import { Vitals } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
-import { calculateAverage } from '@/functions';
+import { calculateAverage, formatMeasurement, getChartProps } from '@/functions';
 
 
 interface Props {
     pet_id: number;
+    kind: 'Weight' | 'Temperature' | 'Heart Rate' | 'Respiratory Rate';
 }
 
-export default function VitalsChart({pet_id} : Props) {
+export default function VitalsChart({pet_id, kind} : Props) {
     const { state, dispatch } = useStoreContext();
     const data:Vitals[] = [...state.entrys.values()]
-        .filter(entry => entry.pets[0].id === pet_id && entry.kind.name === 'Weight')
+        .filter(entry => entry.pets[0].id === pet_id && entry.kind.name === kind)
         .map(({id, kind, recorded_on, measurement}) => ({id, kind, recorded_on, value: measurement ?? 0}));
-    const avg = calculateAverage(data)
-
+    const avg = data.length > 0 ? formatMeasurement(kind, calculateAverage(data)) : '\u2014';
+    const {min, step} = getChartProps(kind)
     const chartWidth = Dimensions.get('window').width - 120;
 
     return (
         <View style={styles.chart}>
-            <Text style={styles.avgText}>average: {avg.toFixed(1)}</Text>
+            <Text style={styles.avgText}>average: {avg}</Text>
             <LineChart
                 data={data}
                 width={chartWidth}
@@ -32,9 +33,16 @@ export default function VitalsChart({pet_id} : Props) {
                 dataPointsColor={THEME.COLOR_MEDIUM_BLUE}
                 hideDataPoints={data.length > 1}
                 hideRules
-                yAxisColor={THEME.COLOR_DARK_BLUE}
                 xAxisColor={THEME.COLOR_DARK_BLUE}
-                yAxisTextStyle={styles.axisText}
+                yAxisColor={THEME.COLOR_DARK_BLUE}                yAxisTextStyle={styles.axisText}
+                yAxisOffset={min}
+                stepValue={step}
+                formatYLabel={(value) => {
+                    if (kind === 'Weight') {
+                        return value
+                    }
+                    return parseFloat(value).toFixed(0)
+                }}
             />
         </View>
     )

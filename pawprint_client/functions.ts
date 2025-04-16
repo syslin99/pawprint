@@ -39,10 +39,21 @@ export function convertDateTime(recorded_on:string, date_style:'fullText'|'fullN
     return {date, time}
 }
 
-export function formatMeasurement(vitals_type:string, measurement:number|undefined) {
-    // not a vitals measurement
+export function formatMeasurement(vitals_type:string, measurement?:number) {
+    // units only
     if (measurement === undefined) {
-        return ''
+        switch (vitals_type) {
+            case 'Weight':
+                return `lbs`
+            case 'Temperature':
+                return `\u00B0F`
+            case 'Heart Rate':
+                return `bpm`
+            case 'Respiratory Rate':
+                return `breaths/min`
+            default:
+                return ''
+        }
     }
 
     switch (vitals_type) {
@@ -57,6 +68,29 @@ export function formatMeasurement(vitals_type:string, measurement:number|undefin
         default:
             return ''
     }
+}
+
+export function getChartProps(vitals_type:string) {
+    let min, step;
+    switch (vitals_type) {
+        case 'Weight':
+            min = 0;
+            step = undefined;
+            break
+        case 'Temperature':
+            min = 95;
+            step = 1;
+            break
+        case 'Heart Rate':
+            min = 50;
+            step = 10;
+            break
+        case 'Respiratory Rate':
+            min = 8;
+            step = 4;
+            break
+    }
+    return {min, step}
 }
 
 export function isOverdue(due_date:string) {

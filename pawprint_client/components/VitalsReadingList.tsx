@@ -5,17 +5,20 @@ import { THEME } from '@/theme';
 import { Vitals } from '@/api_interfaces';
 import { useStoreContext } from '@/components/StoreContext';
 import VitalsReadingRow from '@/components/VitalsReadingRow';
+import { formatMeasurement } from '@/functions';
 
 
 interface Props {
     pet_id: number;
+    kind: 'Weight' | 'Temperature' | 'Heart Rate' | 'Respiratory Rate';
 }
 
-export default function VitalsReadingList({pet_id} : Props) {
+export default function VitalsReadingList({pet_id, kind} : Props) {
     const { state, dispatch } = useStoreContext();
     const data:Vitals[] = [...state.entrys.values()]
-        .filter(entry => entry.pets[0].id === pet_id && entry.kind.name === 'Weight')
+        .filter(entry => entry.pets[0].id === pet_id && entry.kind.name === kind)
         .map(({id, kind, recorded_on, measurement}) => ({id, kind, recorded_on, value: measurement ?? 0}));
+    const units = formatMeasurement(kind)
 
     const renderItem = ({item, index} : {item:Vitals, index: number}) => {
         return (
@@ -41,7 +44,7 @@ export default function VitalsReadingList({pet_id} : Props) {
             renderItem={renderItem}
             ListHeaderComponent={() =>
                 <View style={[styles.headerRow, styles.splitRow]}>
-                    <Text style={styles.headerText}>Weight (lbs)</Text>
+                    <Text style={styles.headerText}>{kind} ({units})</Text>
                     <Text style={styles.headerText}>Date</Text>
                 </View>
             }
