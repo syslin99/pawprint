@@ -9,6 +9,7 @@ export default function RootLayout() {
             <Stack>
                 <Stack.Screen name='(tabs)' options={{ headerShown: false, statusBarStyle: 'light' }} />
                 <Stack.Screen name='settings' options={{ headerShown: false }} />
+                <Stack.Screen name='pets/add_pet' options={{ headerShown: false }} />
                 <Stack.Screen name='pets/[id]' options={{ headerShown: false }} />
                 <Stack.Screen name='entries/[id]' options={{headerShown: false }} />
                 <Stack.Screen name='vitals/[pet_id]' options={{headerShown: false }} />

@@ -17,15 +17,22 @@ export default function PetList() {
         // add icon template
         if (item.id === Number.NEGATIVE_INFINITY) {
             return (
-                <Pressable onPress={() => alert('add pet')} style={styles.addIcon}>
-                    <Ionicons
-                        name='add'
-                        color={THEME.COLOR_DARK_BLUE}
-                        size={THEME.FONT_SIZE_32}
-                        style={styles.text}
-                    />
-                    <Text style={styles.text}>Add Pet</Text>
-                </Pressable>
+                <Link
+                    href={{
+                        pathname: '/pets/add_pet',
+                    }}
+                    asChild
+                >
+                    <Pressable style={styles.addIcon}>
+                        <Ionicons
+                            name='add'
+                            color={THEME.COLOR_DARK_BLUE}
+                            size={THEME.FONT_SIZE_32}
+                            style={styles.text}
+                        />
+                        <Text style={styles.text}>Add Pet</Text>
+                    </Pressable>
+                </Link>
             )
         }
         // pet icon template
