@@ -1,16 +1,19 @@
 import { Pressable, StyleSheet } from 'react-native';
-import { Tabs, Link } from 'expo-router';
+import { Tabs, Link, useSegments } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { THEME } from '@/theme';
 
 
 export default function TabLayout() {
+    const [firstSegment, secondSegment] = useSegments();
+    const isAddEntryScreen = secondSegment === 'add_entry'
+
     return (
         <Tabs screenOptions={{
             headerShown: false,
             // Navigation bar
-            tabBarStyle: {
+            tabBarStyle: isAddEntryScreen ? { display: 'none' } : {
                 height: 80,
                 backgroundColor: THEME.COLOR_DARK_BLUE,
                 paddingTop: THEME.SPACE_12,
