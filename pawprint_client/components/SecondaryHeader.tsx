@@ -5,11 +5,22 @@ import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { THEME } from '@/theme';
 
 
-export default function SecondaryHeader({title, hasEditActions} : {title:string, hasEditActions:boolean}) {
+interface Props {
+    title: string;
+    hasEditActions: boolean;
+    onClose?: () => void;
+}
+
+export default function SecondaryHeader({title, hasEditActions, onClose} : Props) {
     return (
         <View style={styles.headerBar}>
             <Pressable
-                onPress={() => router.back()}
+                onPress={() => {
+                    if (onClose) {
+                        onClose();
+                    }
+                    router.back()
+                }}
                 style={[styles.headerButton, styles.backButton]}
             >
                 <FontAwesome name='close' color={THEME.COLOR_WHITE} size={THEME.FONT_SIZE_24} style={styles.icon} />
