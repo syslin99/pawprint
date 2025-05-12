@@ -70,9 +70,29 @@ const storeReducer = (state: Store, action: Action) => {
     } else if (isEntry(type, payload)) {
         switch (type) {
             case 'ADD_ENTRY':
+                const newEntrys = new Map<number, Entry>();
+                let inserted = false
+                state.entrys.forEach((value, key) => {
+                    // if new entry is more recent, add in order and change flag
+                    if (!inserted && payload.recorded_on >= value.recorded_on) {
+                        newEntrys.set(payload.id, payload)
+                        newEntrys.set(key, value)
+                        inserted = true
+                    }
+                    // otherwise, copy over existing entries
+                    else {
+                        newEntrys.set(key, value)
+                    }
+                })
+                // new entry is the oldest
+                if (!inserted) {
+                    newEntrys.set(payload.id, payload)
+                    inserted = true
+                }
+                // update state
                 return {
                     ...state,
-                    entrys: new Map<number, Entry>([...state.entrys.entries(), [payload.id, payload]]),
+                    entrys: newEntrys,
                 }
             default:
                 return state;

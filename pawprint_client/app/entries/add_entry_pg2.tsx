@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 
 import { THEME } from '@/theme';
+import { useStoreContext } from '@/components/StoreContext';
 import SecondaryHeader from '@/components/SecondaryHeader';
 
 
@@ -10,20 +11,23 @@ interface Props {
 }
 
 export default function AddEntryPage2({kindId, onClose} : Props) {
+    const { state, dispatch } = useStoreContext();
 
     const submitForm = () => {
-        const newEntryData = {
+        let newEntryData = {
             title: 'TESTING POST REQUEST',
             kind: 15,
             measurement: 122,
             recorded_on: '2025-05-01T14:16:00-07:00',
             caretakers: [1],
-            pets: [1],
+            pets: [5],
+            pictures: [],
             resourcetype: 'Vitals',
         }
+
         console.log('sending request...')
         console.log(JSON.stringify(newEntryData))
-
+        // ----- Backend Transformations -----
         fetch('http://192.168.86.81:8000/api/entrys/', {
             method: 'POST',
             headers: {
@@ -34,17 +38,32 @@ export default function AddEntryPage2({kindId, onClose} : Props) {
             // server side response
             .then(response => {
                 if (!response.ok) {
-                    console.error(`HTTP error! status: ${response.status}`)
+                    console.error(`HTTP error saving entry data! status: ${response.status}`)
                 }
                 return response.json();
             })
             // client side success
             .then(data => {
                 console.log('Success:', data);
+                // retrieve newly created entry
+                fetch(`http://192.168.86.81:8000/api/entrys/${data.id}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            console.error(`HTTP error fetching entry data! status: ${response.status}`)
+                        }
+                        return response.json();
+                    })
+                    .then(newEntry => {
+                        // FRONTEND TRANSFORMATIONS
+                        dispatch({ type: 'ADD_ENTRY', payload: newEntry});
+                    })
+                    .catch(error => {
+                        console.error('Error fetching entry data:', error);
+                    })
             })
             // client side error
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error saving entry data:', error);
             })
     }
 
