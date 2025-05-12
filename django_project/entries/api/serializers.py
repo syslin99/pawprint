@@ -38,7 +38,8 @@ class EntryCreateUpdateSerializer(serializers.ModelSerializer):
     pets = serializers.PrimaryKeyRelatedField(queryset=Pet.objects.all(), many=True)
     class Meta:
         model = Entry
-        fields = ['title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed']
+        fields = ['id', 'title', 'kind', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed', 'pictures']
+        read_only_fields = ['id']
 
 class VitalsListRetrieveSerializer(serializers.ModelSerializer):
     kind = KindSerializer()
@@ -65,7 +66,8 @@ class VitalsCreateUpdateSerializer(serializers.ModelSerializer):
     pets = serializers.PrimaryKeyRelatedField(queryset=Pet.objects.all(), many=True)
     class Meta:
         model = Vitals
-        fields = ['title', 'kind', 'measurement', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed']
+        fields = ['id', 'title', 'kind', 'measurement', 'recorded_on', 'caretakers', 'pets', 'notes', 'is_event', 'is_completed', 'pictures']
+        read_only_fields = ['id']
 
 class EntryListRetrievePolymorphicSerializer(PolymorphicSerializer):
     model_serializer_mapping = {
