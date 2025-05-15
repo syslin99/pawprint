@@ -1,8 +1,18 @@
-import { View, Text, Pressable } from 'react-native';
+import { ScrollView, View, Text, Pressable, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { FontAwesome5 } from '@expo/vector-icons';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
 import { THEME } from '@/theme';
+import { KINDS } from '@/constants';
+import { formatMeasurement } from '@/functions';
 import { useStoreContext } from '@/components/StoreContext';
 import SecondaryHeader from '@/components/SecondaryHeader';
+import TextField from '@/components/TextField';
+import RadioButton from '@/components/RadioButton';
+import FilterChip from '@/components/FilterChip';
+import AssistChip from '@/components/AssistChip';
+import Button from '@/components/Button';
 
 
 interface Props {
@@ -12,13 +22,75 @@ interface Props {
 
 export default function AddEntryPage2({kindId, onClose} : Props) {
     const { state, dispatch } = useStoreContext();
+    const isVitals = [13, 14, 15, 16].includes(kindId) ? true : false
 
+    // form values
+    const [title, setTitle] = useState(KINDS[kindId].name);
+    const [recordedOn, setRecordedOn] = useState(new Date());
+    const [mode, setMode] = useState<'date'|'time'>('date');
+    const [show, setShow] = useState(false);
+    const [entry, setEntry] = useState('log');
+    const [caretakers, setCaretakers] = useState(new Set<number>([state.caretakerId]));
+    const [pets, setPets] = state.pets.size === 1 ? useState(new Set<number>(state.pets.keys())) : useState(new Set<number>());
+    const [measurement, setMeasurement] = useState('');
+    const [pictures, setPictures] = useState([]);
+    const [notes, setNotes] = useState('');
+
+    // supplementary state variables and functions
+    const showMode = (mode:'date'|'time') => {
+        setMode(mode);
+        setShow(true);
+    }
+    const showDatePicker = () => {
+        showMode('date');
+    }
+    const showTimePicker = () => {
+        showMode('time')
+    }
+    const onChange = (event:DateTimePickerEvent, selectedDate?:Date) => {
+        if (selectedDate) {
+            setRecordedOn(selectedDate);
+        }
+        setShow(false);
+    }
+
+    const handleToggleCaretaker = (id: number) => {
+        setCaretakers(caretakers => {
+            const newCaretakers = new Set(caretakers);
+            // remove caretaker, if exists
+            if (newCaretakers.has(id)) {
+                newCaretakers.delete(id);
+            }
+            // add caretaker if doesn't exist
+            else {
+                newCaretakers.add(id);
+            }
+            return newCaretakers
+        })
+    }
+
+    const handleTogglePet = (id: number) => {
+        setPets(pets => {
+            const newPets = new Set(pets);
+            // remove pet, if exists
+            if (newPets.has(id)) {
+                newPets.delete(id);
+            }
+            // add pet if doesn't exist
+            else {
+                newPets.add(id);
+            }
+            return newPets
+        })
+    }
+
+    // form submission
     const submitForm = () => {
         let newEntryData = {
             title: 'TESTING POST REQUEST',
             kind: 15,
             measurement: 122,
-            recorded_on: '2025-05-01T14:16:00-07:00',
+            recorded_on: new Date(),
             caretakers: [1],
             pets: [5],
             pictures: [],
@@ -54,7 +126,7 @@ export default function AddEntryPage2({kindId, onClose} : Props) {
                         return response.json();
                     })
                     .then(newEntry => {
-                        // FRONTEND TRANSFORMATIONS
+                        // ----- Frontend Transformations -----
                         dispatch({ type: 'ADD_ENTRY', payload: newEntry});
                     })
                     .catch(error => {
@@ -68,21 +140,213 @@ export default function AddEntryPage2({kindId, onClose} : Props) {
     }
 
     return (
-        <View>
+        <View style={styles.screen}>
             <SecondaryHeader title='Add Entry' hasEditActions={false} onClose={onClose}/>
-            <Text>SECOND PAGE - KIND: {kindId}</Text>
-            <Pressable
-                onPress={submitForm}
-                style={{
-                    backgroundColor: THEME.COLOR_LIGHT_BLUE,
-                    borderWidth: 2,
-                    borderColor: THEME.COLOR_DARK_BLUE,
-                    padding: 8,
-                    margin: 24,
-                }}
-            >
-                <Text>Submit Test</Text>
-            </Pressable>
+            <ScrollView>
+                {/* Title */}
+                <View style={styles.fieldset}>
+                    <Text style={styles.headerText}>Title</Text>
+                    <View style={styles.fields}>
+                        <TextField
+                            placeholder='Title'
+                            value={title}
+                            setValue={setTitle}
+                        />
+                    </View>
+                </View>
+                {/* Date and Time */}
+                <View style={styles.fieldset}>
+                    <Text style={styles.headerText}>Date and Time</Text>
+                    <View style={styles.fields}>
+                        <View style={styles.dateTimeGroup}>
+                            <Pressable
+                                onPress={showDatePicker}
+                                style={styles.iconTextRow}
+                            >
+                                <FontAwesome5
+                                    name='calendar-alt'
+                                    color={THEME.COLOR_DARK_BLUE}
+                                    size={20}
+                                    style={{width: 24}}
+                                />
+                                <Text style={styles.datetimeText}>{recordedOn.toLocaleDateString([], {year:'numeric', month: '2-digit', day: '2-digit'})}</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={showTimePicker}
+                                style={styles.iconTextRow}
+                            >
+                                <FontAwesome5
+                                    name='clock'
+                                    color={THEME.COLOR_DARK_BLUE}
+                                    size={20}
+                                    style={{width: 24}}
+                                />
+                                <Text style={styles.datetimeText}>{recordedOn.toLocaleTimeString([], {hour:'numeric', minute: 'numeric'})}</Text>
+                            </Pressable>
+                            {show && (
+                                <DateTimePicker
+                                testID="dateTimePicker"
+                                value={recordedOn}
+                                mode={mode}
+                                onChange={onChange}
+                                />
+                            )}
+                        </View>
+                        <View style={styles.eventLogGroup}>
+                            <RadioButton
+                                option='log'
+                                value={entry}
+                                setValue={setEntry}
+                                label={'save to Log'}
+                            />
+                            <RadioButton
+                                option='event'
+                                value={entry}
+                                setValue={setEntry}
+                                label={'save to Events'}
+                            />
+                        </View>
+                    </View>
+                </View>
+                {/* Caretakers */}
+                <View style={styles.fieldset}>
+                    <Text style={styles.headerText}>Caretakers</Text>
+                    <View style={[styles.fields, styles.chipGrid]}>
+                        {Array.from(state.caretakers.entries()).map(([id, caretaker]) =>
+                            <FilterChip
+                                key={id}
+                                label={caretaker.name}
+                                item={id}
+                                set={caretakers}
+                                onToggle={handleToggleCaretaker}
+                            />
+                        )}
+                    </View>
+                </View>
+                {/* Pets */}
+                <View style={styles.fieldset}>
+                    <Text style={styles.headerText}>Pets</Text>
+                    <View style={[styles.fields, styles.chipGrid]}>
+                        {Array.from(state.pets.entries()).map(([id, pet]) =>
+                            <FilterChip
+                                key={id}
+                                icon={pet.image}
+                                label={pet.name}
+                                item={id}
+                                set={pets}
+                                onToggle={handleTogglePet}
+                            />
+                        )}
+                    </View>
+                </View>
+                {/* Measurement */}
+                {isVitals && <View style={styles.fieldset}>
+                    <Text style={styles.headerText}>Measurement</Text>
+                    <View style={styles.fields}>
+                        <View style={styles.row}>
+                            <TextField
+                                placeholder='value'
+                                value={measurement}
+                                setValue={setMeasurement}
+                                numeric={true}
+                            />
+                            <Text style={styles.unitsText}>{formatMeasurement(KINDS[kindId].name)}</Text>
+                        </View>
+                    </View>
+                </View>}
+                {/* Pictures */}
+                <View style={styles.fieldset}>
+                    <Text style={styles.headerText}>Pictures</Text>
+                    <View style={styles.fields}>
+                        <AssistChip
+                            icon='plus'
+                            label='image'
+                            onPress={() => alert('Select image')}
+                        />
+                    </View>
+                </View>
+                {/* Notes */}
+                <View style={styles.fieldset}>
+                    <Text style={styles.headerText}>Notes</Text>
+                    <View style={styles.fields}>
+                        <TextField
+                            placeholder='Add notes...'
+                            value={notes}
+                            setValue={setNotes}
+                            multiline={true}
+                        />
+                    </View>
+                </View>
+
+                <Button
+                    textColor={THEME.COLOR_WHITE}
+                    bgColor={THEME.COLOR_MEDIUM_BLUE}
+                    label='Save'
+                    onPress={() => alert('Form saved!')}
+                    style={styles.submitButton}
+                />
+            </ScrollView>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        backgroundColor: THEME.COLOR_WHITE,
+    },
+    fieldset: {
+        padding: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: THEME.COLOR_DARK_BLUE,
+    },
+    fields: {
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    dateTimeGroup: {
+        gap: 4,
+    },
+    eventLogGroup: {
+        flexDirection: 'row',
+        gap: 8,
+        justifyContent: 'center',
+    },
+    chipGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 16,
+        rowGap: 8,
+    },
+    row: {
+        flexDirection: 'row',
+    },
+    iconTextRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    headerText: {
+        color: THEME.COLOR_DARK_BLUE,
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingBottom: 16,
+    },
+    datetimeText: {
+        color: THEME.COLOR_DARK_BLUE,
+        fontSize: 16,
+    },
+    unitsText: {
+        color: THEME.COLOR_DARK_BLUE,
+        fontSize: 16,
+        textAlignVertical: 'center',
+        marginLeft: 16,
+        marginRight: 16,
+    },
+    submitButton: {
+        alignSelf: 'flex-end',
+        marginTop: 16,
+        marginBottom: 16,
+        marginRight: 24,
+    },
+})

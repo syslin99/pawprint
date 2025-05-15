@@ -15,11 +15,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.pawprint_client"
     },
     "androidStatusBar": {
-        "backgroundColor": "#202A30",
-        "translucent": false
+      "backgroundColor": "#202A30",
+      "translucent": false
     },
     "web": {
       "bundler": "metro",
@@ -35,6 +36,35 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#202A30"
+        }
+      ],
+      [
+        "@react-native-community/datetimepicker",
+        {
+          "android": {
+            "datePicker": {
+              "colorAccent": {
+                "light": "#202A30"
+              },
+              "colorControlActivated": {
+                "light": "#3D84AE"
+              },
+              "textColorPrimary": {
+                "light": "#202A30"
+              }
+            },
+            "timePicker": {
+              "headerBackground": {
+                "light": "#202A30"
+              },
+              "numbersSelectorColor": {
+                "light": "#3D84AE"
+              },
+              "numbersTextColor": {
+                "light": "#202A30"
+              }
+            }
+          }
         }
       ]
     ],
