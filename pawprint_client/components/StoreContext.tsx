@@ -53,6 +53,11 @@ const storeReducer = (state: Store, action: Action) => {
     if (isPet(type, payload)) {
         switch (type) {
             case 'ADD_PET':
+                const parsedPet = {
+                    ...payload,
+                    birthdate: payload.birthdate ? new Date(payload.birthdate) : payload.birthdate
+                }
+                state.pets.set(payload.id, parsedPet)
                 // update caretakers in group
                 payload.caretakers?.forEach(petCaretaker => {
                     const caretaker = state.caretakers.get(petCaretaker.id)
@@ -64,12 +69,6 @@ const storeReducer = (state: Store, action: Action) => {
                         state.caretakers.set(petCaretaker.id, {...petCaretaker, pets: [payload.id]})
                     }
                 })
-                // update pets
-                const parsedPet = {
-                    ...payload,
-                    birthdate: payload.birthdate ? new Date(payload.birthdate) : payload.birthdate
-                }
-                state.pets.set(payload.id, parsedPet)
                 return state
             default:
                 return state;
@@ -87,12 +86,17 @@ const storeReducer = (state: Store, action: Action) => {
     } else if (isEntry(type, payload)) {
         switch (type) {
             case 'ADD_ENTRY':
+                const parsedEntry = {
+                    ...payload,
+                    recorded_on: new Date(payload.recorded_on),
+                }
+                // insert entry in order by date
                 const newEntrys = new Map<number, Entry>();
                 let inserted = false
                 state.entrys.forEach((value, key) => {
                     // if new entry is more recent, add in order and change flag
-                    if (!inserted && payload.recorded_on >= value.recorded_on) {
-                        newEntrys.set(payload.id, payload)
+                    if (!inserted && parsedEntry.recorded_on >= value.recorded_on) {
+                        newEntrys.set(payload.id, parsedEntry)
                         newEntrys.set(key, value)
                         inserted = true
                     }
@@ -103,7 +107,7 @@ const storeReducer = (state: Store, action: Action) => {
                 })
                 // new entry is the oldest
                 if (!inserted) {
-                    newEntrys.set(payload.id, payload)
+                    newEntrys.set(payload.id, parsedEntry)
                     inserted = true
                 }
                 // update state

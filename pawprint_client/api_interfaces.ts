@@ -37,7 +37,7 @@ export interface Entry {
     title: string;
     kind: Kind;
     measurement?: number;
-    recorded_on: string;
+    recorded_on: Date;
     caretakers: Array<{id:number, name:string}>;
     pets: Array<{id:number, name:string}>;
     notes?: string;
@@ -49,6 +49,6 @@ export interface Entry {
 export interface Vitals {
     id: number;
     kind: Kind;
-    recorded_on: string;
+    recorded_on: Date;
     value: number;
 }

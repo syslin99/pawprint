@@ -3,26 +3,25 @@ import { MONTHS_ABBR, MONTHS_FULL, DAYS_OF_WEEK } from '@/constants';
 
 
 /* ----- entry functions ----- */
-export function convertDateTime(recorded_on:string, date_style:'fullText'|'fullNumbers'|'abbreviated') {
-    const datetime = new Date(recorded_on)
+export function convertDateTime(recorded_on:Date, date_style:'fullText'|'fullNumbers'|'abbreviated') {
     // format date
-    const year = datetime.getFullYear()
+    const year = recorded_on.getFullYear()
     let month, day, day_name, date
     switch (date_style) {
         case 'fullText':
-            month = MONTHS_FULL[datetime.getMonth()]
-            day = datetime.getDate()
-            day_name = DAYS_OF_WEEK[datetime.getDay()]
+            month = MONTHS_FULL[recorded_on.getMonth()]
+            day = recorded_on.getDate()
+            day_name = DAYS_OF_WEEK[recorded_on.getDay()]
             date = `${day_name}, ${month} ${day}, ${year}`
             break;
         case 'fullNumbers':
-            month = (datetime.getMonth() + 1).toString().padStart(2, '0')
-            day = datetime.getDate().toString().padStart(2, '0')
+            month = (recorded_on.getMonth() + 1).toString().padStart(2, '0')
+            day = recorded_on.getDate().toString().padStart(2, '0')
             date = `${month}/${day}/${year}`
             break;
         case 'abbreviated':
-            month = MONTHS_ABBR[datetime.getMonth()]
-            day = datetime.getDate().toString().padStart(2, '0')
+            month = MONTHS_ABBR[recorded_on.getMonth()]
+            day = recorded_on.getDate().toString().padStart(2, '0')
             date = `${month} ${day}`
             break;
         default:
@@ -30,13 +29,18 @@ export function convertDateTime(recorded_on:string, date_style:'fullText'|'fullN
             break;
     }
     // format time
-    const hours = datetime.getHours() % 12 == 0 ? 12 : datetime.getHours() % 12
-    const minutes = datetime.getMinutes().toString().padStart(2, '0')
-    const am_pm = datetime.getHours() < 12 ? 'am' : 'pm'
+    const hours = recorded_on.getHours() % 12 == 0 ? 12 : recorded_on.getHours() % 12
+    const minutes = recorded_on.getMinutes().toString().padStart(2, '0')
+    const am_pm = recorded_on.getHours() < 12 ? 'am' : 'pm'
     const time = `${hours}:${minutes} ${am_pm}`
 
     // return [date, time]
     return {date, time}
+}
+
+export function isOverdue(due_date:Date) {
+    const now = new Date();
+    return due_date < now
 }
 
 export function formatMeasurement(vitals_type:string, measurement?:number) {
@@ -91,12 +95,6 @@ export function getChartProps(vitals_type:string) {
             break
     }
     return {min, step}
-}
-
-export function isOverdue(due_date:string) {
-    const target = new Date(due_date)
-    const now = new Date();
-    return target < now
 }
 
 export function calculateAverage(data:Vitals[]) {
