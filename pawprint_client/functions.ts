@@ -111,10 +111,9 @@ export function calculateAverage(data:Vitals[]) {
 }
 
 /* ----- pet functions ----- */
-export function calculateAge(birthdate:string) {
-    const target = new Date(birthdate)
+export function calculateAge(birthdate:Date) {
     const today = new Date();
-    const totalDiffMonths = (today.getFullYear() * 12 + today.getMonth()) - (target.getFullYear() * 12 + target.getMonth());
+    const totalDiffMonths = (today.getFullYear() * 12 + today.getMonth()) - (birthdate.getFullYear() * 12 + birthdate.getMonth());
     const years = Math.floor(totalDiffMonths / 12);
     const months = Math.floor(totalDiffMonths % 12);
     return {years, months}

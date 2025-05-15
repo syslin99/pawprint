@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { Pet, Contact, Entry, Caretaker } from '@/api_interfaces';
+import { parse } from '@babel/core';
 
 
 /* ----- interfaces ----- */
@@ -52,7 +53,7 @@ const storeReducer = (state: Store, action: Action) => {
     if (isPet(type, payload)) {
         switch (type) {
             case 'ADD_PET':
-                // update caretakers
+                // update caretakers in group
                 payload.caretakers?.forEach(petCaretaker => {
                     const caretaker = state.caretakers.get(petCaretaker.id)
                     if (caretaker) {
@@ -63,11 +64,13 @@ const storeReducer = (state: Store, action: Action) => {
                         state.caretakers.set(petCaretaker.id, {...petCaretaker, pets: [payload.id]})
                     }
                 })
-                // update state
-                return {
-                    ...state,
-                    pets: new Map<number,Pet>([...state.pets.entries(), [payload.id, payload]]),
+                // update pets
+                const parsedPet = {
+                    ...payload,
+                    birthdate: payload.birthdate ? new Date(payload.birthdate) : payload.birthdate
                 }
+                state.pets.set(payload.id, parsedPet)
+                return state
             default:
                 return state;
         }
