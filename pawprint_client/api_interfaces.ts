@@ -1,10 +1,7 @@
 export interface Caretaker {
     id: number;
     name: string;
-    email: string;
-    password: string;
-    pets?: Array<number>;
-    contacts?: Array<number>;
+    pets: Array<number>;
 }
 
 export interface Pet {

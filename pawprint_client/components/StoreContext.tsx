@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { Pet, Contact, Entry } from '@/api_interfaces';
+import { Pet, Contact, Entry, Caretaker } from '@/api_interfaces';
 
 
 /* ----- interfaces ----- */
@@ -13,6 +13,7 @@ interface Store {
     pets: Map<number, Pet>;
     contacts: Map<number, Contact>;
     entrys: Map<number, Entry>;
+    caretakers: Map<number, Caretaker>;
 }
 
 interface Action {
@@ -42,6 +43,7 @@ const initialState:Store = {
     pets: new Map<number, Pet>(),
     contacts: new Map<number, Contact>(),
     entrys: new Map<number, Entry>(),
+    caretakers: new Map<number, Caretaker>(),
 }
 
 const storeReducer = (state: Store, action: Action) => {
@@ -50,6 +52,18 @@ const storeReducer = (state: Store, action: Action) => {
     if (isPet(type, payload)) {
         switch (type) {
             case 'ADD_PET':
+                // update caretakers
+                payload.caretakers?.forEach(petCaretaker => {
+                    const caretaker = state.caretakers.get(petCaretaker.id)
+                    if (caretaker) {
+                        // if caretaker is already stored, update pets list
+                        caretaker.pets.push(payload.id)
+                    } else {
+                        // add caretaker to store
+                        state.caretakers.set(petCaretaker.id, {...petCaretaker, pets: [payload.id]})
+                    }
+                })
+                // update state
                 return {
                     ...state,
                     pets: new Map<number,Pet>([...state.pets.entries(), [payload.id, payload]]),
