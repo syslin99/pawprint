@@ -2,6 +2,7 @@ import { ScrollView, View, Text, Pressable, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { useRouter } from 'expo-router';
 
 import { THEME } from '@/theme';
 import { KINDS } from '@/constants';
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export default function AddEntryPage2({kindId, onClose} : Props) {
+    const router = useRouter();
     const { state, dispatch } = useStoreContext();
     const isVitals = [13, 14, 15, 16].includes(kindId) ? true : false
 
@@ -86,19 +88,31 @@ export default function AddEntryPage2({kindId, onClose} : Props) {
 
     // form submission
     const submitForm = () => {
-        let newEntryData = {
-            title: 'TESTING POST REQUEST',
-            kind: 15,
-            measurement: 122,
-            recorded_on: new Date(),
-            caretakers: [1],
-            pets: [5],
-            pictures: [],
+        const newEntryData = isVitals ? {
+            title: title,
+            kind: kindId,
+            measurement: parseFloat(measurement),
+            recorded_on: recordedOn,
+            caretakers: [...caretakers],
+            pets: [...pets],
+            pictures: pictures,
+            notes: notes,
+            is_event: entry === 'event' ? true : false,
+            is_completed: entry === 'log' ? true : false,
             resourcetype: 'Vitals',
+        } : {
+            title: title,
+            kind: kindId,
+            recorded_on: recordedOn,
+            caretakers: [...caretakers],
+            pets: [...pets],
+            pictures: pictures,
+            notes: notes,
+            is_event: entry === 'event' ? true : false,
+            is_completed: entry === 'log' ? true : false,
+            resourcetype: 'Entry',
         }
 
-        console.log('sending request...')
-        console.log(JSON.stringify(newEntryData))
         // ----- Backend Transformations -----
         fetch('http://192.168.86.81:8000/api/entrys/', {
             method: 'POST',
@@ -116,7 +130,6 @@ export default function AddEntryPage2({kindId, onClose} : Props) {
             })
             // client side success
             .then(data => {
-                console.log('Success:', data);
                 // retrieve newly created entry
                 fetch(`http://192.168.86.81:8000/api/entrys/${data.id}`)
                     .then(response => {
@@ -282,7 +295,11 @@ export default function AddEntryPage2({kindId, onClose} : Props) {
                     textColor={THEME.COLOR_WHITE}
                     bgColor={THEME.COLOR_MEDIUM_BLUE}
                     label='Save'
-                    onPress={() => alert('Form saved!')}
+                    onPress={() => {
+                        submitForm()
+                        onClose()
+                        router.push('/')
+                    }}
                     style={styles.submitButton}
                 />
             </ScrollView>
