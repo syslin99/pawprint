@@ -1,7 +1,8 @@
-import { ScrollView, View, Text, Pressable, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import Snackbar from 'react-native-snackbar';
 import { useRouter } from 'expo-router';
 
 import { THEME } from '@/theme';
@@ -299,6 +300,11 @@ export default function AddEntryPage2({kindId, onClose} : Props) {
                         submitForm()
                         onClose()
                         router.push('/')
+                        Snackbar.show({
+                            text: 'Entry saved',
+                            duration: Snackbar.LENGTH_SHORT,
+                            marginBottom: Dimensions.get('window').height - 3*64,
+                        });
                     }}
                     style={styles.submitButton}
                 />
